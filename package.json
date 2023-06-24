@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
+    "build:elements": "npm --prefix web-components run build && rm -rf static/elements && cp -r web-components/dist static/elements",
     "preview": "vite preview",
     "package": "svelte-kit sync && svelte-package && publint",
     "prepublishOnly": "npm run package",
@@ -26,7 +27,9 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "svelte": "^4.0.0"
+    "svelte": "^4.0.0",
+    "@jaspero/modular": "^1.12.2",
+    "@jaspero/modular-components": "^1.10.0"
   },
   "devDependencies": {
     "@jaspero/modular": "1.12.2",

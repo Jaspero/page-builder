@@ -1,3 +1,27 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import PageBuilder from '$lib/PageBuilder.svelte';
+  import type { PageBuilderOptions } from '$lib/interface/page-builder-options.interface.ts';
+  import { PageBuilderComponentSlotType } from '$lib/interface/page-builder-component-slot.interface.ts';
+
+	const options: PageBuilderOptions = {
+		components: [
+			{
+				selector: `example-content`,
+				slots: [{
+					type: PageBuilderComponentSlotType.InlineEditor
+				}]
+			}
+		],
+		value: [
+			{
+				selector: 'example-content',
+				attributes: {
+					theme: 'simple'
+				},
+				slots: [{value: 'Cooly'}]
+			}
+		]
+	};
+</script>
+
+<PageBuilder {options} />
