@@ -4,6 +4,8 @@
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
   import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
   import { fly } from 'svelte/transition';
+  import { contextMenu, iframeEl as iframeElStore } from './context-menu.ts';
+  import ContextMenu from './ContextMenu.svelte';
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -29,18 +31,39 @@
       },
       {}
     );
-
+    iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
 
     if (value) {
-      value.forEach((v: PageBuilderComponentValue) =>
-        addComponent(componentMap[v.selector], v)
-      );
+      value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
 
   function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue) {
     const el = document.createElement(component.selector);
+
+    el.addEventListener('contextmenu', (event: MouseEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      console.log('index', event);
+
+      contextMenu.set({
+        event,
+        items: [
+          {
+            label: 'Settings',
+            callback: () => {}
+          },
+          {
+            label: 'Remove',
+            callback: () => {
+
+            }
+          }
+        ]
+      });
+    });
 
     if (value) {
       if (value.attributes) {
@@ -59,9 +82,11 @@
 
     renderedComponents.push({
       el,
-      value: value ? value : {
-        selector: component.selector
-      }
+      value: value
+        ? value
+        : {
+            selector: component.selector
+          }
     });
 
     iframeDoc.body.appendChild(el);
@@ -69,7 +94,7 @@
 
   function selectComponent(selector: string) {
     const component = componentMap[selector];
-    addComponent(component, {...component.defaultValue || {}, selector});
+    addComponent(component, { ...(component.defaultValue || {}), selector });
     componentGallery = false;
     updateValue();
   }
@@ -107,7 +132,11 @@
   </div>
 
   {#if componentGallery}
-    <div in:fly={{ x: 200, duration: 500 }} out:fly={{ x: -200, duration: 500 }} class="component-gallery">
+    <div
+      in:fly={{ x: 200, duration: 500 }}
+      out:fly={{ x: -200, duration: 500 }}
+      class="component-gallery"
+    >
       <button on:click={() => (componentGallery = false)}>Close</button>
 
       {#each options.components as component}
@@ -121,6 +150,8 @@
     </div>
   {/if}
 </div>
+
+<ContextMenu />
 
 <style>
   .pb {
