@@ -1,5 +1,5 @@
-const {execSync} = require('child_process');
-const {readdirSync} = require('fs');
+const { execSync } = require('child_process');
+const { readdirSync } = require('fs');
 
 function execute(commnand) {
   try {
@@ -18,4 +18,6 @@ execute('rm -rf dist && mkdir dist');
 /**
  * Compile files
  */
-readdirSync('./src').forEach(file => execute(`uglifyjs -o dist/${file.replace('.js', '.min.js')} -- src/${file}`));
+readdirSync('./src').forEach((file) =>
+  execute(`uglifyjs -o dist/${file.replace('.js', '.min.js')} -- src/${file}`)
+);
