@@ -27,9 +27,9 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "svelte": "^4.0.0",
     "@jaspero/modular": "^1.12.2",
-    "@jaspero/modular-components": "^1.10.0"
+    "@jaspero/modular-components": "^1.10.0",
+    "svelte": "^4.0.0"
   },
   "devDependencies": {
     "@jaspero/modular": "1.12.2",
@@ -51,9 +51,14 @@
     "tslib": "2.5.3",
     "typescript": "5.1.3",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.2",
+    "sass": "^1.63.6",
+    "@sveltejs/vite-plugin-svelte": "^2.4.2"
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "svelte-material-icons": "^3.0.4"
+  }
 }

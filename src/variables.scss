@@ -1,0 +1,21 @@
+/* Variables and mixins declared here will be available in all other SCSS files */
+
+:root {
+  /* Base Font Size */
+  /* Scaling the base font size might change the size of other elements on the site as well */
+  --font-size: 16px;
+
+  /* Primary Color */
+  --primary: rgba(0,0,0,.87);
+  --primary-contrast: rgba(255,255,255,.87);
+
+  /* Secondary Color */
+  --secondary: rgba(255,255,255.87);
+
+  /* Button Border Radius */
+  --button-br: .25rem;
+
+  /* Button Padding */
+  --button-x-padding: 1rem;
+  --button-y-padding: 0;
+}

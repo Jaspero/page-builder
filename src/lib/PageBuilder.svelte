@@ -1,4 +1,8 @@
 <script lang="ts">
+  import Laptop from "svelte-material-icons/Laptop.svelte";
+  import Tablet from "svelte-material-icons/Tablet.svelte";
+  import Cellphone from "svelte-material-icons/Cellphone.svelte";
+  import Plus from "svelte-material-icons/Plus.svelte";
   import { onMount } from 'svelte';
   import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
@@ -6,6 +10,7 @@
   import { fly } from 'svelte/transition';
   import { contextMenu, iframeEl as iframeElStore } from './context-menu.ts';
   import ContextMenu from './ContextMenu.svelte';
+  import Button from "./Button.svelte";
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -112,18 +117,27 @@
 <div class="pb">
   <header class="pb-header">
     <div>
-      <button on:click={() => (previewStyle = 'desktop')} class:active={previewStyle === 'desktop'}
-        >Desktop</button
-      >
-      <button on:click={() => (previewStyle = 'tablet')} class:active={previewStyle === 'tablet'}
-        >Tablet</button
-      >
-      <button on:click={() => (previewStyle = 'mobile')} class:active={previewStyle === 'mobile'}
-        >Mobile</button
-      >
+      <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
+        <Laptop size="24" />
+      </Button>
+
+      <Button variant="icon" on:click={() => (previewStyle = 'tablet')} active={previewStyle === 'tablet'}>
+        <Tablet size="24" />
+      </Button>
+
+      <Button variant="icon" on:click={() => (previewStyle = 'mobile')} active={previewStyle === 'mobile'}>
+        <Cellphone size="24" />
+      </Button>
     </div>
+
     <div>
-      <button on:click={() => (componentGallery = true)}>+ Add Component</button>
+      <Button on:click={() => (componentGallery = true)}>
+        <slot slot="prefix">
+          <Plus size="24" />
+        </slot>
+
+        Add Component
+      </Button>
     </div>
   </header>
 
@@ -137,15 +151,15 @@
       out:fly={{ x: -200, duration: 500 }}
       class="component-gallery"
     >
-      <button on:click={() => (componentGallery = false)}>Close</button>
+      <Button on:click={() => (componentGallery = false)}>Close</Button>
 
       {#each options.components as component}
-        <button class="component-gallery-item" on:click={() => selectComponent(component.selector)}>
+        <Button on:click={() => selectComponent(component.selector)}>
           <h3>{component.title || component.selector}</h3>
           {#if component.description}
             <p>{component.description}</p>
           {/if}
-        </button>
+        </Button>
       {/each}
     </div>
   {/if}
@@ -163,6 +177,12 @@
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .pb-header div:first-child {
+    display: flex;
+    gap: .5rem;
   }
 
   iframe {
