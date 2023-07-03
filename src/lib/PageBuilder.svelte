@@ -23,6 +23,8 @@
   let iframeEl: HTMLIFrameElement;
   let iframeDoc: Document;
 
+  let draggingDiv = null;
+
   const renderedComponents: Array<{
     el: HTMLElement;
     value: PageBuilderComponentValue;
@@ -30,15 +32,14 @@
 
   onMount(() => {
     componentMap = options.components.reduce(
-      (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
-        acc[cur.selector] = cur;
-        return acc;
-      },
-      {}
+            (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
+              acc[cur.selector] = cur;
+              return acc;
+            },
+            {}
     );
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
-
     if (value) {
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
@@ -46,12 +47,14 @@
 
   function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue) {
     const el = document.createElement(component.selector);
+    el.setAttribute('draggable', 'true');
+    el.addEventListener('dragstart', (event: MouseEvent) => handleDragStart(event, el))
+    el.addEventListener('dragover', handleDragOver)
+    el.addEventListener('drop', (event: MouseEvent) => handleDrop(event, el))
 
     el.addEventListener('contextmenu', (event: MouseEvent) => {
       event.stopPropagation();
       event.preventDefault();
-
-      console.log('index', event);
 
       contextMenu.set({
         event,
@@ -79,8 +82,8 @@
 
       if (value.slots) {
         value.slots.forEach(
-          (slot) =>
-            (el.innerHTML += `<div ${slot.name ? `slot="${slot.name}"` : ''}>${slot.value}</div>`)
+                (slot) =>
+                        (el.innerHTML += `<div ${slot.name ? `slot="${slot.name}"` : ''}>${slot.value}</div>`)
         );
       }
     }
@@ -88,10 +91,10 @@
     renderedComponents.push({
       el,
       value: value
-        ? value
-        : {
-            selector: component.selector
-          }
+              ? value
+              : {
+                selector: component.selector
+              }
     });
 
     iframeDoc.body.appendChild(el);
@@ -111,6 +114,26 @@
 
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
+  }
+
+  function handleDragStart(event, div) {
+    draggingDiv = div;
+    event.dataTransfer.setData('text/plain', div.id);
+    updateValue();
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+  }
+
+  function handleDrop(event, droppedDiv) {
+    const droppedDivIndex = renderedComponents.findIndex(x => x.el === draggingDiv);
+    const targetDivIndex = renderedComponents.findIndex(x => x.el === droppedDiv);
+    let stateElement = renderedComponents[droppedDivIndex];
+    renderedComponents[droppedDivIndex] = renderedComponents[targetDivIndex];
+    renderedComponents[targetDivIndex] = stateElement;
+    draggingDiv = null;
+    updateValue();
   }
 </script>
 
@@ -147,15 +170,15 @@
 
   {#if componentGallery}
     <div
-      in:fly={{ x: 200, duration: 500 }}
-      out:fly={{ x: -200, duration: 500 }}
-      class="component-gallery"
+            in:fly={{ x: 200, duration: 500 }}
+            out:fly={{ x: -200, duration: 500 }}
+            class="component-gallery"
     >
       <Button on:click={() => (componentGallery = false)}>Close</Button>
 
       {#each options.components as component}
         <Button on:click={() => selectComponent(component.selector)}>
-          <h3>{component.title || component.selector}</h3>
+          <h3>{component.title || component.selector}</h3>dddd
           {#if component.description}
             <p>{component.description}</p>
           {/if}

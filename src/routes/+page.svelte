@@ -19,7 +19,21 @@
             theme: 'blup'
           }
         }
-      }
+      },
+      {
+        selector: `another-component`,
+        slots: [
+          {
+            type: PageBuilderComponentSlotType.InlineEditor
+          }
+        ],
+        defaultValue: {
+          slots: [{ value: 'This is new component' }],
+          attributes: {
+            theme: 'blup'
+          }
+        }
+      },
     ]
   };
 
@@ -32,8 +46,6 @@
       slots: [{ value: 'Cooly' }]
     }
   ];
-
-	$: console.log('Value changes', value);
 </script>
 
 <PageBuilder {options} bind:value={value} />
