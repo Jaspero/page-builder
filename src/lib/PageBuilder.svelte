@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Block from '$lib/Block.svelte';
   import Laptop from "svelte-material-icons/Laptop.svelte";
   import Tablet from "svelte-material-icons/Tablet.svelte";
   import Cellphone from "svelte-material-icons/Cellphone.svelte";
@@ -25,7 +26,7 @@
 
   let draggingDiv = null;
 
-  const renderedComponents: Array<{
+  let renderedComponents: Array<{
     el: HTMLElement;
     value: PageBuilderComponentValue;
   }> = [];
@@ -44,49 +45,55 @@
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
-
   function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue) {
-    const el = document.createElement(component.selector);
-    el.setAttribute('draggable', 'true');
-    el.addEventListener('dragstart', (event: MouseEvent) => handleDragStart(event, el))
-    el.addEventListener('dragover', handleDragOver)
-    el.addEventListener('drop', (event: MouseEvent) => handleDrop(event, el))
-
-    el.addEventListener('contextmenu', (event: MouseEvent) => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      contextMenu.set({
-        event,
-        items: [
-          {
-            label: 'Settings',
-            callback: () => {}
-          },
-          {
-            label: 'Remove',
-            callback: () => {
-
-            }
-          }
-        ]
-      });
-    });
-
-    if (value) {
-      if (value.attributes) {
-        for (const key in value.attributes) {
-          el.setAttribute(key, value.attributes[key]);
-        }
+    console.log('component', component);
+    const el = new Block({
+      target: iframeDoc.body,
+      props: {
+        component
       }
+    })
+    // const el = new Block();
 
-      if (value.slots) {
-        value.slots.forEach(
-                (slot) =>
-                        (el.innerHTML += `<div ${slot.name ? `slot="${slot.name}"` : ''}>${slot.value}</div>`)
-        );
-      }
-    }
+    // el.addEventListener('contextmenu', (event: MouseEvent) => {
+    //   event.stopPropagation();
+    //   event.preventDefault();
+    //
+    //   contextMenu.set({
+    //     event,
+    //     items: [
+    //       {
+    //         label: 'Settings',
+    //         callback: () => {
+    //           console.log(366);
+    //         }
+    //       },
+    //       {
+    //         label: 'Remove',
+    //         callback: () => {
+    //           const droppedDivIndex = renderedComponents.findIndex(x => x.el === el);
+    //           console.log('removeCompssonent', el, component.selector, droppedDivIndex);
+    //           removeComponent(droppedDivIndex)
+    //           updateValue();
+    //         }
+    //       }
+    //     ]
+    //   });
+    // });
+    // if (value) {
+    //   if (value.attributes) {
+    //     for (const key in value.attributes) {
+    //       el.setAttribute(key, value.attributes[key]);
+    //     }
+    //   }
+    //
+    //   if (value.slots) {
+    //     value.slots.forEach(
+    //             (slot) =>
+    //                     (el.innerHTML += `<div ${slot.name ? `slot="${slot.name}"` : ''}>${slot.value}</div>`)
+    //     );
+    //   }
+    // }
 
     renderedComponents.push({
       el,
@@ -97,7 +104,6 @@
               }
     });
 
-    iframeDoc.body.appendChild(el);
   }
 
   function selectComponent(selector: string) {
@@ -132,6 +138,7 @@
     let stateElement = renderedComponents[droppedDivIndex];
     renderedComponents[droppedDivIndex] = renderedComponents[targetDivIndex];
     renderedComponents[targetDivIndex] = stateElement;
+    renderedComponents = [...renderedComponents];
     draggingDiv = null;
     updateValue();
   }
@@ -163,7 +170,7 @@
       </Button>
     </div>
   </header>
-
+  <div id="abc"></div>
   <div class="pb-preview {previewStyle}">
     <iframe bind:this={iframeEl} />
   </div>
@@ -178,7 +185,7 @@
 
       {#each options.components as component}
         <Button on:click={() => selectComponent(component.selector)}>
-          <h3>{component.title || component.selector}</h3>dddd
+          <h3>{component.title || component.selector}</h3>
           {#if component.description}
             <p>{component.description}</p>
           {/if}

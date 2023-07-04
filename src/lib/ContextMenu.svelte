@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { contextMenu, iframeEl } from './context-menu.ts';
+	import { contextMenu, iframeEl } from './context-menu.ts';
 
 	let open = false;
 	let top: string;
@@ -7,6 +7,7 @@
 	let ctxEl: HTMLElement;
 
 	$: if ($contextMenu) {
+		console.log('$contextMenu', $contextMenu);
 		const { clientX, clientY } = $contextMenu.event;
 		top = `${clientY + ($iframeEl?.getBoundingClientRect().y || 0)}px`;
 		left = `${clientX}px`;
@@ -25,14 +26,19 @@
 	function close() {
 		contextMenu.set(null);
 	}
+
+	function resolveClick(callback) {
+		callback();
+		close()
+	}
 </script>
 
 {#if open}
 	<div class="context-menu" bind:this={ctxEl} style:top={top} style:left={left}>
 		{#each $contextMenu.items as item}
-			<button style:color={item.color} on:click={() => item.callback(), contextMenu.set(null)}>
+			<button style:color={item.color} on:click={() => resolveClick(item.callback)}>
 				{item.label}
-			</button>	
+			</button>
 		{/each}
 	</div>
 {/if}
