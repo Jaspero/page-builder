@@ -9,8 +9,7 @@
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
   import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
   import { fly } from 'svelte/transition';
-  import { contextMenu, iframeEl as iframeElStore } from './context-menu.ts';
-  import ContextMenu from './ContextMenu.svelte';
+  import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from "./Button.svelte";
 
   export let options: PageBuilderOptions;
@@ -30,6 +29,22 @@
     el: HTMLElement;
     value: PageBuilderComponentValue;
   }> = [];
+
+  let list = [
+    { id: 1, value: "red" },
+    { id: 2, value: "green" },
+    { id: 3, value: "blue" },
+    { id: 4, value: "cyan" },
+  ];
+
+  let draggingItemHide = null;
+  let mouseYCoordinate = null; // pointer y coordinate within client
+  let distanceTopGrabbedVsPointer = null;
+
+  let draggingItem = null;
+  let draggingItemIndex = null;
+
+  let hoveredItemIndex = null;
 
   onMount(() => {
     componentMap = options.components.reduce(
@@ -100,6 +115,31 @@
     draggingDiv = null;
     updateValue();
   }
+
+  $: {
+    // prevents the ghost flickering at the top
+    if (mouseYCoordinate == null || mouseYCoordinate == 0) {
+      // showGhost = false;
+    }
+  }
+
+  $: {
+
+    if (
+            draggingItemIndex != null &&
+            hoveredItemIndex != null &&
+            draggingItemIndex != hoveredItemIndex
+    ) {
+
+      [value[draggingItemIndex], value[hoveredItemIndex]] = [
+        value[hoveredItemIndex],
+        value[draggingItemIndex],
+      ];
+      draggingItemIndex = hoveredItemIndex;
+    }
+  }
+
+  let container = null;
 </script>
 
 <div class="pb">
@@ -151,6 +191,45 @@
       {/each}
     </div>
   {/if}
+
+
+  <div class="container" bind:this={container}>
+    {#if mouseYCoordinate}
+      <div
+              class="item ghost"
+              style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
+        {draggingItem.selector}
+      </div>
+    {/if}
+
+    {#each value as item, index (item)}
+      <div
+              class="item {draggingItemHide === item ? 'invisible' : ''}"
+              draggable="true"
+              on:dragstart={(e) => {
+                mouseYCoordinate = e.clientY;
+
+                draggingItem = item;
+                draggingItemIndex = index;
+                draggingItemHide = item;
+
+                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
+            }}
+              on:drag={(e) => {
+                mouseYCoordinate = e.clientY;
+            }}
+              on:dragover={(e) => {
+                hoveredItemIndex = index;
+            }}
+              on:dragend={(e) => {
+                draggingItemHide = null;
+                hoveredItemIndex = null;
+            }}>
+        {item.selector}
+      </div>
+    {/each}
+  </div>
+  {JSON.stringify(value)}
 </div>
 
 <style>
@@ -187,5 +266,32 @@
     min-height: 300px;
     background-color: white;
     z-index: 1;
+  }
+
+
+  .container {
+    padding: 10px;
+  }
+
+  .item {
+    width: 300px;
+    background: white;
+    padding: 10px;
+    border: black solid;
+    margin-bottom: 10px;
+    cursor: grab;
+  }
+
+  .ghost {
+    margin-bottom: 10px;
+    pointer-events: none;
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 10;
+  }
+
+  .invisible {
+    opacity: 0;
   }
 </style>
