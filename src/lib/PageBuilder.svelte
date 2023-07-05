@@ -23,8 +23,6 @@
   let iframeEl: HTMLIFrameElement;
   let iframeDoc: Document;
 
-  let draggingDiv = null;
-
   let renderedComponents: Array<{
     el: HTMLElement;
     value: PageBuilderComponentValue;
@@ -38,7 +36,7 @@
   ];
 
   let draggingItemHide = null;
-  let mouseYCoordinate = null; // pointer y coordinate within client
+  let mouseYCoordinate = null;
   let distanceTopGrabbedVsPointer = null;
 
   let draggingItem = null;
@@ -93,34 +91,6 @@
 
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
-  }
-
-  function handleDragStart(event, div) {
-    draggingDiv = div;
-    event.dataTransfer.setData('text/plain', div.id);
-    updateValue();
-  }
-
-  function handleDragOver(event) {
-    event.preventDefault();
-  }
-
-  function handleDrop(event, droppedDiv) {
-    const droppedDivIndex = renderedComponents.findIndex(x => x.el === draggingDiv);
-    const targetDivIndex = renderedComponents.findIndex(x => x.el === droppedDiv);
-    let stateElement = renderedComponents[droppedDivIndex];
-    renderedComponents[droppedDivIndex] = renderedComponents[targetDivIndex];
-    renderedComponents[targetDivIndex] = stateElement;
-    renderedComponents = [...renderedComponents];
-    draggingDiv = null;
-    updateValue();
-  }
-
-  $: {
-    // prevents the ghost flickering at the top
-    if (mouseYCoordinate == null || mouseYCoordinate == 0) {
-      // showGhost = false;
-    }
   }
 
   $: {
