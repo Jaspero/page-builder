@@ -16,12 +16,13 @@
         {
           label: 'Settings',
           callback: () => {
-            console.log(366);
+            console.log('Settings');
           }
         },
         {
           label: 'Remove',
           callback: () => {
+            console.log('Remove');
           }
         }
       ],

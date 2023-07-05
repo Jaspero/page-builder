@@ -35,7 +35,7 @@
 	<div class="context-menu" bind:this={ctxEl} style:top={top} style:left={left}>
 		{#each $contextMenu.items as item}
 			<button style:color={item.color} on:click={() => resolveClick(item.callback)}>
-				{item.label}sss
+				{item.label}
 			</button>
 		{/each}
 	</div>
