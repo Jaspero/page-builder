@@ -138,9 +138,48 @@
       </Button>
     </div>
   </header>
-  <div id="abc"></div>
-  <div class="pb-preview {previewStyle}">
-    <iframe bind:this={iframeEl} />
+
+  <div class="flex fd-row jc-between ai-center">
+    <div class="pb-preview {previewStyle}">
+      <iframe bind:this={iframeEl} />
+    </div>
+    <div class="pb-preview container" bind:this={container}>
+      {#if mouseYCoordinate}
+        <div
+                class="item ghost"
+                style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
+          {draggingItem.selector}
+        </div>
+      {/if}
+
+      {#each value as item, index (item)}
+        <div
+                class="item {draggingItemHide === item ? 'invisible' : ''}"
+                draggable="true"
+                on:dragstart={(e) => {
+                mouseYCoordinate = e.clientY;
+
+                draggingItem = item;
+                draggingItemIndex = index;
+                draggingItemHide = item;
+
+                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
+            }}
+                on:drag={(e) => {
+                mouseYCoordinate = e.clientY;
+                console.log('mouseYCoordinate', e);
+            }}
+                on:dragover={(e) => {
+                hoveredItemIndex = index;
+            }}
+                on:dragend={(e) => {
+                draggingItemHide = null;
+                hoveredItemIndex = null;
+            }}>
+          {item.selector}
+        </div>
+      {/each}
+    </div>
   </div>
 
   {#if componentGallery}
@@ -161,45 +200,6 @@
       {/each}
     </div>
   {/if}
-
-
-  <div class="container" bind:this={container}>
-    {#if mouseYCoordinate}
-      <div
-              class="item ghost"
-              style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
-        {draggingItem.selector}
-      </div>
-    {/if}
-
-    {#each value as item, index (item)}
-      <div
-              class="item {draggingItemHide === item ? 'invisible' : ''}"
-              draggable="true"
-              on:dragstart={(e) => {
-                mouseYCoordinate = e.clientY;
-
-                draggingItem = item;
-                draggingItemIndex = index;
-                draggingItemHide = item;
-
-                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
-            }}
-              on:drag={(e) => {
-                mouseYCoordinate = e.clientY;
-            }}
-              on:dragover={(e) => {
-                hoveredItemIndex = index;
-            }}
-              on:dragend={(e) => {
-                draggingItemHide = null;
-                hoveredItemIndex = null;
-            }}>
-        {item.selector}
-      </div>
-    {/each}
-  </div>
-  {JSON.stringify(value)}
 </div>
 
 <style>
@@ -213,6 +213,10 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem;
+  }
+
+  .pb-preview {
+    max-width: 500px;
   }
 
   .pb-header div:first-child {
