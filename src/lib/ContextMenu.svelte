@@ -41,7 +41,7 @@
 	</div>
 {/if}
 
-<style lang="scss">
+<style>
 	.context-menu {
 		position: fixed;
 		border-radius: 6px;

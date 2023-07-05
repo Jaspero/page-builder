@@ -139,7 +139,7 @@
     </div>
   </header>
 
-  <div class="flex fd-row jc-between ai-center">
+  <div class="pb-grid">
     <div class="pb-preview {previewStyle}">
       <iframe bind:this={iframeEl} />
     </div>
@@ -208,6 +208,11 @@
     position: relative;
   }
 
+  .pb-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
   .pb-header {
     border-bottom: 1px solid #ccc;
     display: flex;
@@ -215,8 +220,14 @@
     padding: 1rem;
   }
 
-  .pb-preview {
-    max-width: 500px;
+  .pb-preview.desktop, .pb-preview.tablet, .pb-review.mobile {
+    grid-column: span 8 / span 8;
+  }
+
+  .pb-preview.container {
+    position: relative;
+    grid-column: span 4 / span 4;
+    padding: 10px;
   }
 
   .pb-header div:first-child {
@@ -242,13 +253,8 @@
     z-index: 1;
   }
 
-
-  .container {
-    padding: 10px;
-  }
-
   .item {
-    width: 300px;
+    width: 100%;
     background: white;
     padding: 10px;
     border: black solid;
@@ -261,8 +267,7 @@
     pointer-events: none;
     z-index: 99;
     position: absolute;
-    top: 0;
-    left: 10;
+    width: 100%;
   }
 
   .invisible {

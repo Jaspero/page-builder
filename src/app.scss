@@ -3,6 +3,11 @@
 
 html {
   font-size: var(--font-size);
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
