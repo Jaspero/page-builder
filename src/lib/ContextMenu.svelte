@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { contextMenu, iframeEl } from './context-menu.ts';
 
-	let open = false;
+	export let showMenu = false;
 	let top: string;
 	let left: string;
 	let ctxEl: HTMLElement;
 
 	$: if ($contextMenu) {
-		console.log('$contextMenu', $contextMenu);
 		const { clientX, clientY } = $contextMenu.event;
 		top = `${clientY + ($iframeEl?.getBoundingClientRect().y || 0)}px`;
 		left = `${clientX}px`;
@@ -17,14 +16,13 @@
 			iframeDoc.addEventListener('click', close);
 			iframeDoc.addEventListener('contextmenu', close);
 		}
-
-		open = true;
 	} else {
-		open = false;
+		showMenu = false
 	}
 
 	function close() {
 		contextMenu.set(null);
+		showMenu = false
 	}
 
 	function resolveClick(callback) {
@@ -33,17 +31,17 @@
 	}
 </script>
 
-{#if open}
+{#if (showMenu && $contextMenu)}
 	<div class="context-menu" bind:this={ctxEl} style:top={top} style:left={left}>
 		{#each $contextMenu.items as item}
 			<button style:color={item.color} on:click={() => resolveClick(item.callback)}>
-				{item.label}
+				{item.label}sss
 			</button>
 		{/each}
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
 	.context-menu {
 		position: fixed;
 		border-radius: 6px;

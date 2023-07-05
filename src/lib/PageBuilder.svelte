@@ -46,54 +46,12 @@
     }
   });
   function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue) {
-    console.log('component', component);
     const el = new Block({
       target: iframeDoc.body,
       props: {
         component
       }
     })
-    // const el = new Block();
-
-    // el.addEventListener('contextmenu', (event: MouseEvent) => {
-    //   event.stopPropagation();
-    //   event.preventDefault();
-    //
-    //   contextMenu.set({
-    //     event,
-    //     items: [
-    //       {
-    //         label: 'Settings',
-    //         callback: () => {
-    //           console.log(366);
-    //         }
-    //       },
-    //       {
-    //         label: 'Remove',
-    //         callback: () => {
-    //           const droppedDivIndex = renderedComponents.findIndex(x => x.el === el);
-    //           console.log('removeCompssonent', el, component.selector, droppedDivIndex);
-    //           removeComponent(droppedDivIndex)
-    //           updateValue();
-    //         }
-    //       }
-    //     ]
-    //   });
-    // });
-    // if (value) {
-    //   if (value.attributes) {
-    //     for (const key in value.attributes) {
-    //       el.setAttribute(key, value.attributes[key]);
-    //     }
-    //   }
-    //
-    //   if (value.slots) {
-    //     value.slots.forEach(
-    //             (slot) =>
-    //                     (el.innerHTML += `<div ${slot.name ? `slot="${slot.name}"` : ''}>${slot.value}</div>`)
-    //     );
-    //   }
-    // }
 
     renderedComponents.push({
       el,
@@ -194,8 +152,6 @@
     </div>
   {/if}
 </div>
-
-<ContextMenu />
 
 <style>
   .pb {

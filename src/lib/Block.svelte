@@ -4,35 +4,32 @@
 
   export let component;
   let showMenu = false;
-  function rightClickContextMenu(e) {
-    console.log(222);
+
+  function rightClickContextMenu(event) {
     showMenu = true
-    e.stopPropagation();
-    e.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
 
-    <!--contextMenu.set({-->
-    <!--  e,-->
-    <!--  items: [-->
-    <!--    {-->
-    <!--      label: 'Settings',-->
-    <!--      callback: () => {-->
-    <!--        console.log(366);-->
-    <!--      }-->
-    <!--    },-->
-    <!--    {-->
-    <!--      label: 'Remove',-->
-    <!--      callback: () => {-->
-    <!--        const droppedDivIndex = renderedComponents.findIndex(x => x.el === el);-->
-    <!--        console.log('removeCompssonent', el, component.selector, droppedDivIndex);-->
-    <!--        removeComponent(droppedDivIndex)-->
-    <!--        updateValue();-->
-    <!--      }-->
-    <!--    }-->
-    //   ]
-    // });
+    contextMenu.set({
+      event,
+      items: [
+        {
+          label: 'Settings',
+          callback: () => {
+            console.log(366);
+          }
+        },
+        {
+          label: 'Remove',
+          callback: () => {
+          }
+        }
+      ],
+      component
+    });
   }
-
 </script>
+
 
 <div>
     {#each component.defaultValue.slots as slot}
@@ -40,7 +37,7 @@
     {/each}
 </div>
 
-<ContextMenu />
+<ContextMenu bind:showMenu={showMenu} />
 
 <style lang="scss">
 
