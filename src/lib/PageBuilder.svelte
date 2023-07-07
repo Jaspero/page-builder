@@ -163,11 +163,10 @@
                 draggingItemIndex = index;
                 draggingItemHide = item;
 
-                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
+                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
             }}
                 on:drag={(e) => {
                 mouseYCoordinate = e.clientY;
-                console.log('mouseYCoordinate', e);
             }}
                 on:dragover={(e) => {
                 hoveredItemIndex = index;
