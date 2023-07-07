@@ -28,13 +28,6 @@
     value: PageBuilderComponentValue;
   }> = [];
 
-  let list = [
-    { id: 1, value: "red" },
-    { id: 2, value: "green" },
-    { id: 3, value: "blue" },
-    { id: 4, value: "cyan" },
-  ];
-
   let draggingItemHide = null;
   let mouseYCoordinate = null;
   let distanceTopGrabbedVsPointer = null;
@@ -58,23 +51,34 @@
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
-  function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue) {
+  
+  function refreshIframe() {
+    iframeEl.contentWindow.location.reload();
+    setTimeout(() => {
+      iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
+      if (value) {
+        value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
+      }
+    }, 50)
+  }
+
+  function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue, repopulate = true) {
     const el = new Block({
       target: iframeDoc.body,
       props: {
         component
       }
     })
-
-    renderedComponents.push({
-      el,
-      value: value
-              ? value
-              : {
-                selector: component.selector
-              }
-    });
-
+    if (repopulate) {
+      renderedComponents.push({
+        el,
+        value: value
+                ? value
+                : {
+                  selector: component.selector
+                }
+      });
+    }
   }
 
   function selectComponent(selector: string) {
@@ -106,6 +110,7 @@
         value[draggingItemIndex],
       ];
       draggingItemIndex = hoveredItemIndex;
+      refreshIframe()
     }
   }
 
