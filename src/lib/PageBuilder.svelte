@@ -3,6 +3,7 @@
   import Laptop from "svelte-material-icons/Laptop.svelte";
   import Tablet from "svelte-material-icons/Tablet.svelte";
   import Cellphone from "svelte-material-icons/Cellphone.svelte";
+  import CloseThick from "svelte-material-icons/CloseThick.svelte";
   import Plus from "svelte-material-icons/Plus.svelte";
   import { onMount } from 'svelte';
   import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
@@ -91,6 +92,7 @@
   function removeComponent(index: number) {
     renderedComponents.splice(index, 1);
     updateValue();
+    refreshIframe();
   }
 
   function updateValue() {
@@ -180,7 +182,12 @@
                 draggingItemHide = null;
                 hoveredItemIndex = null;
             }}>
-          {item.selector}
+          <div>
+            {item.selector}
+            <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
+              <CloseThick size="24" />
+            </Button>
+          </div>
         </div>
       {/each}
     </div>
@@ -261,7 +268,7 @@
     width: 100%;
     background: white;
     padding: 10px;
-    border: black solid;
+    border: black solid 1px;
     margin-bottom: 10px;
     cursor: grab;
   }
