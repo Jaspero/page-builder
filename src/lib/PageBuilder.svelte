@@ -1,10 +1,5 @@
 <script lang="ts">
   import Block from '$lib/Block.svelte';
-  import Laptop from "svelte-material-icons/Laptop.svelte";
-  import Tablet from "svelte-material-icons/Tablet.svelte";
-  import Cellphone from "svelte-material-icons/Cellphone.svelte";
-  import CloseThick from "svelte-material-icons/CloseThick.svelte";
-  import Plus from "svelte-material-icons/Plus.svelte";
   import { onMount } from 'svelte';
   import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
@@ -123,23 +118,18 @@
   <header class="pb-header">
     <div>
       <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
-        <Laptop size="24" />
       </Button>
 
       <Button variant="icon" on:click={() => (previewStyle = 'tablet')} active={previewStyle === 'tablet'}>
-        <Tablet size="24" />
       </Button>
 
       <Button variant="icon" on:click={() => (previewStyle = 'mobile')} active={previewStyle === 'mobile'}>
-        <Cellphone size="24" />
       </Button>
     </div>
 
     <div>
       <Button on:click={() => (componentGallery = true)}>
-        <slot slot="prefix">
-          <Plus size="24" />
-        </slot>
+        <slot slot="prefix"></slot>
 
         Add Component
       </Button>
@@ -185,7 +175,6 @@
           <div>
             {item.selector}
             <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
-              <CloseThick size="24" />
             </Button>
           </div>
         </div>
