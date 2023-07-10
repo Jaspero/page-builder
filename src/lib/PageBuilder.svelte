@@ -90,6 +90,10 @@
     refreshIframe();
   }
 
+  function openEdit(item) {
+    console.log('item', item);
+  }
+
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
   }
@@ -160,6 +164,18 @@
                 style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
           <div class="box">
             <p>{draggingItem.selector}</p>
+            <div class="box">
+              <Button variant="icon" active={previewStyle === 'tablet'}>
+              <span class="material-symbols-outlined">
+              edit
+              </span>
+              </Button>
+              <Button variant="icon" active={previewStyle === 'tablet'}>
+              <span class="material-symbols-outlined">
+              delete_forever
+              </span>
+              </Button>
+            </div>
           </div>
         </div>
       {/if}
@@ -189,11 +205,18 @@
             }}>
           <div class="box">
             <p>{item.selector}</p>
-            <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
+            <div class="box">
+              <Button variant="icon" on:click={() => openEdit(item)} active={previewStyle === 'tablet'}>
+              <span class="material-symbols-outlined">
+              edit
+              </span>
+              </Button>
+              <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
               <span class="material-symbols-outlined">
               delete_forever
               </span>
-            </Button>
+              </Button>
+            </div>
           </div>
         </div>
       {/each}

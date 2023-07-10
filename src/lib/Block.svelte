@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { contextMenu } from '$lib/context-menu.js';
-  import ContextMenu from '$lib/ContextMenu.svelte';
 
   export let component;
   let showMenu = false;
@@ -9,25 +7,6 @@
     showMenu = true
     event.stopPropagation();
     event.preventDefault();
-
-    contextMenu.set({
-      event,
-      items: [
-        {
-          label: 'Settings',
-          callback: () => {
-            console.log('Settings');
-          }
-        },
-        {
-          label: 'Remove',
-          callback: () => {
-            console.log('Remove');
-          }
-        }
-      ],
-      component
-    });
   }
 </script>
 
@@ -37,8 +16,6 @@
         <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
     {/each}
 </div>
-
-<ContextMenu bind:showMenu={showMenu} />
 
 <style lang="scss">
 
