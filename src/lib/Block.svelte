@@ -6,7 +6,7 @@
   let showMenu = false;
 
   function rightClickContextMenu(event) {
-    showMenu = true
+    showMenu = true;
     event.stopPropagation();
     event.preventDefault();
 
@@ -31,15 +31,13 @@
   }
 </script>
 
-
 <div>
-    {#each component.defaultValue.slots as slot}
-        <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
-    {/each}
+  {#each component.defaultValue.slots as slot}
+    <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
+  {/each}
 </div>
 
-<ContextMenu bind:showMenu={showMenu} />
+<ContextMenu bind:showMenu />
 
 <style lang="scss">
-
 </style>

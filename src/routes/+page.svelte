@@ -33,7 +33,7 @@
             theme: 'blup'
           }
         }
-      },
+      }
     ]
   };
 
@@ -48,4 +48,4 @@
   ];
 </script>
 
-<PageBuilder {options} bind:value={value} />
+<PageBuilder {options} bind:value />

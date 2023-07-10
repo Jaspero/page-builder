@@ -1,3 +1,5 @@
+<svelte:options customElement="jp-page-builder" />
+
 <script lang="ts">
   import Block from '$lib/Block.svelte';
   import { onMount } from 'svelte';
@@ -6,7 +8,7 @@
   import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
   import { fly } from 'svelte/transition';
   import { iframeEl as iframeElStore } from './context-menu.ts';
-  import Button from "./Button.svelte";
+  import Button from './Button.svelte';
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -35,11 +37,11 @@
 
   onMount(() => {
     componentMap = options.components.reduce(
-            (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
-              acc[cur.selector] = cur;
-              return acc;
-            },
-            {}
+      (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
+        acc[cur.selector] = cur;
+        return acc;
+      },
+      {}
     );
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
@@ -47,32 +49,38 @@
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
-  
+
   function refreshIframe() {
     iframeEl.contentWindow.location.reload();
     setTimeout(() => {
       iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
       if (value) {
-        value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
+        value.forEach((v: PageBuilderComponentValue) =>
+          addComponent(componentMap[v.selector], v, false)
+        );
       }
-    }, 50)
+    }, 50);
   }
 
-  function addComponent(component: PageBuilderComponent, value?: PageBuilderComponentValue, repopulate = true) {
+  function addComponent(
+    component: PageBuilderComponent,
+    value?: PageBuilderComponentValue,
+    repopulate = true
+  ) {
     const el = new Block({
       target: iframeDoc.body,
       props: {
         component
       }
-    })
+    });
     if (repopulate) {
       renderedComponents.push({
         el,
         value: value
-                ? value
-                : {
-                  selector: component.selector
-                }
+          ? value
+          : {
+              selector: component.selector
+            }
       });
     }
   }
@@ -95,19 +103,17 @@
   }
 
   $: {
-
     if (
-            draggingItemIndex != null &&
-            hoveredItemIndex != null &&
-            draggingItemIndex != hoveredItemIndex
+      draggingItemIndex != null &&
+      hoveredItemIndex != null &&
+      draggingItemIndex != hoveredItemIndex
     ) {
-
       [value[draggingItemIndex], value[hoveredItemIndex]] = [
         value[hoveredItemIndex],
-        value[draggingItemIndex],
+        value[draggingItemIndex]
       ];
       draggingItemIndex = hoveredItemIndex;
-      refreshIframe()
+      refreshIframe();
     }
   }
 
@@ -117,19 +123,28 @@
 <div class="pb">
   <header class="pb-header">
     <div>
-      <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
-      </Button>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'desktop')}
+        active={previewStyle === 'desktop'}
+      />
 
-      <Button variant="icon" on:click={() => (previewStyle = 'tablet')} active={previewStyle === 'tablet'}>
-      </Button>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'tablet')}
+        active={previewStyle === 'tablet'}
+      />
 
-      <Button variant="icon" on:click={() => (previewStyle = 'mobile')} active={previewStyle === 'mobile'}>
-      </Button>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'mobile')}
+        active={previewStyle === 'mobile'}
+      />
     </div>
 
     <div>
       <Button on:click={() => (componentGallery = true)}>
-        <slot slot="prefix"></slot>
+        <slot slot="prefix" />
 
         Add Component
       </Button>
@@ -142,40 +157,42 @@
     </div>
     <div class="pb-preview container" bind:this={container}>
       {#if mouseYCoordinate}
-        <div
-                class="item ghost"
-                style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
+        <div class="item ghost" style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
           {draggingItem.selector}
         </div>
       {/if}
 
       {#each value as item, index (item)}
         <div
-                class="item {draggingItemHide === item ? 'invisible' : ''}"
-                draggable="true"
-                on:dragstart={(e) => {
-                mouseYCoordinate = e.clientY;
+          class="item {draggingItemHide === item ? 'invisible' : ''}"
+          draggable="true"
+          on:dragstart={(e) => {
+            mouseYCoordinate = e.clientY;
 
-                draggingItem = item;
-                draggingItemIndex = index;
-                draggingItemHide = item;
+            draggingItem = item;
+            draggingItemIndex = index;
+            draggingItemHide = item;
 
-                distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
-            }}
-                on:drag={(e) => {
-                mouseYCoordinate = e.clientY;
-            }}
-                on:dragover={(e) => {
-                hoveredItemIndex = index;
-            }}
-                on:dragend={(e) => {
-                draggingItemHide = null;
-                hoveredItemIndex = null;
-            }}>
+            distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
+          }}
+          on:drag={(e) => {
+            mouseYCoordinate = e.clientY;
+          }}
+          on:dragover={(e) => {
+            hoveredItemIndex = index;
+          }}
+          on:dragend={(e) => {
+            draggingItemHide = null;
+            hoveredItemIndex = null;
+          }}
+        >
           <div>
             {item.selector}
-            <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
-            </Button>
+            <Button
+              variant="icon"
+              on:click={() => removeComponent(index)}
+              active={previewStyle === 'tablet'}
+            />
           </div>
         </div>
       {/each}
@@ -184,9 +201,9 @@
 
   {#if componentGallery}
     <div
-            in:fly={{ x: 200, duration: 500 }}
-            out:fly={{ x: -200, duration: 500 }}
-            class="component-gallery"
+      in:fly={{ x: 200, duration: 500 }}
+      out:fly={{ x: -200, duration: 500 }}
+      class="component-gallery"
     >
       <Button on:click={() => (componentGallery = false)}>Close</Button>
 
@@ -220,7 +237,9 @@
     padding: 1rem;
   }
 
-  .pb-preview.desktop, .pb-preview.tablet, .pb-review.mobile {
+  .pb-preview.desktop,
+  .pb-preview.tablet,
+  .pb-review.mobile {
     grid-column: span 8 / span 8;
   }
 
@@ -232,7 +251,7 @@
 
   .pb-header div:first-child {
     display: flex;
-    gap: .5rem;
+    gap: 0.5rem;
   }
 
   iframe {
