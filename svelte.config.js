@@ -5,6 +5,7 @@ import {vitePreprocess} from '@sveltejs/kit/vite';
 const config = {
   preprocess: [vitePreprocess({})],
   kit: {
+    appDir: 'app',
     adapter: adapter(),
     prerender: {
       entries: [
