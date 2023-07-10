@@ -158,7 +158,9 @@
         <div
                 class="item ghost"
                 style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
-          {draggingItem.selector}
+          <div class="box">
+            <p>{draggingItem.selector}</p>
+          </div>
         </div>
       {/if}
 
