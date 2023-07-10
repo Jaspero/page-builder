@@ -47,7 +47,7 @@
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
-  
+
   function refreshIframe() {
     iframeEl.contentWindow.location.reload();
     setTimeout(() => {
@@ -118,18 +118,31 @@
   <header class="pb-header">
     <div>
       <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
+        <span class="material-symbols-outlined">
+        laptop_mac
+        </span>
       </Button>
 
       <Button variant="icon" on:click={() => (previewStyle = 'tablet')} active={previewStyle === 'tablet'}>
+        <span class="material-symbols-outlined">
+        tablet
+        </span>
       </Button>
 
       <Button variant="icon" on:click={() => (previewStyle = 'mobile')} active={previewStyle === 'mobile'}>
+        <span class="material-symbols-outlined">
+        smartphone
+        </span>
       </Button>
     </div>
 
     <div>
       <Button on:click={() => (componentGallery = true)}>
-        <slot slot="prefix"></slot>
+        <slot slot="prefix">
+          <span class="material-symbols-outlined">
+          add
+          </span>
+        </slot>
 
         Add Component
       </Button>
@@ -175,6 +188,9 @@
           <div>
             {item.selector}
             <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
+              <span class="material-symbols-outlined">
+              delete_forever
+              </span>
             </Button>
           </div>
         </div>
@@ -203,6 +219,14 @@
 </div>
 
 <style>
+  .material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
+  }
+
   .pb {
     border: 1px solid #ccc;
     position: relative;
