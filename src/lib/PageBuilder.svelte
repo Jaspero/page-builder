@@ -114,7 +114,7 @@
   let container = null;
 </script>
 
-<div class="pb">
+<div>
   <header class="pb-header">
     <div>
       <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
@@ -150,7 +150,7 @@
   </header>
 
   <div class="pb-grid">
-    <div class="pb-preview {previewStyle}">
+    <div class="pb pb-preview {previewStyle}">
       <iframe bind:this={iframeEl} />
     </div>
     <div class="pb-preview container" bind:this={container}>
@@ -185,8 +185,8 @@
                 draggingItemHide = null;
                 hoveredItemIndex = null;
             }}>
-          <div>
-            {item.selector}
+          <div class="box">
+            <p>{item.selector}</p>
             <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
               <span class="material-symbols-outlined">
               delete_forever
@@ -238,7 +238,6 @@
   }
 
   .pb-header {
-    border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     padding: 1rem;
@@ -296,5 +295,11 @@
 
   .invisible {
     opacity: 0;
+  }
+
+  .box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
   }
 </style>
