@@ -33,6 +33,7 @@
 
   let draggingItem = null;
   let draggingItemIndex = null;
+  let editing = null;
 
   let hoveredItemIndex = null;
   let showModal = false;
@@ -51,6 +52,10 @@
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
   });
+
+  export function save() {
+    console.log('Saved!');
+  }
 
   function refreshIframe() {
     iframeEl.contentWindow.location.reload();
@@ -72,7 +77,7 @@
     const el = new Block({
       target: iframeDoc.body,
       props: {
-        component
+        component: value || component.defaultValue
       }
     });
     if (repopulate) {
@@ -100,8 +105,11 @@
     refreshIframe();
   }
 
-  function openEdit(item) {
-    console.log('item', item);
+  function openEdit(item, ind) {
+    editing = {
+      value: item,
+      ind,
+    }
     showModal = true;
   }
 
@@ -214,7 +222,7 @@
           <div class="box">
             <p>{item.selector}</p>
             <div class="box">
-              <Button variant="icon" on:click={() => openEdit(item)} active={previewStyle === 'tablet'}>
+              <Button variant="icon" on:click={() => openEdit(item, index)} active={previewStyle === 'tablet'}>
               <span class="material-symbols-outlined">
               edit
               </span>
@@ -255,9 +263,11 @@
   <h2 slot="header">
     Edit Modal
   </h2>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, delectus dignissimos dolorum earum facilis magnam nisi nulla, officiis quidem saepe unde vero? Corporis cum dolore eum id libero, quibusdam quis.
-  </p>
+  {#if editing && editing.value && editing.value.slots}
+    {#each editing.value.slots as slot}
+      <textarea bind:value={slot.value}></textarea>
+    {/each}
+  {/if}
 </Modal>
 
 <style>

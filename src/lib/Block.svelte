@@ -11,7 +11,7 @@
 </script>
 
 <div>
-  {#each component.defaultValue.slots as slot}
+  {#each component.slots as slot}
     <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
   {/each}
 </div>

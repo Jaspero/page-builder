@@ -1,4 +1,5 @@
 <script>
+  import { save } from './PageBuilder.svelte'
   export let showModal;
 
   let dialog;
@@ -17,6 +18,7 @@
     <hr />
     <slot />
     <button autofocus on:click={() => dialog.close()}>close</button>
+    <button autofocus on:click={save}>save</button>
   </div>
 </dialog>
 
