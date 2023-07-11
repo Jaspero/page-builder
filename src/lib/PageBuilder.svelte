@@ -9,6 +9,7 @@
   import { fly } from 'svelte/transition';
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
+  import Modal from './Modal.svelte';
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -34,6 +35,7 @@
   let draggingItemIndex = null;
 
   let hoveredItemIndex = null;
+  let showModal = false;
 
   onMount(() => {
     componentMap = options.components.reduce(
@@ -100,6 +102,7 @@
 
   function openEdit(item) {
     console.log('item', item);
+    showModal = true;
   }
 
   function updateValue() {
@@ -247,6 +250,15 @@
     </div>
   {/if}
 </div>
+
+<Modal bind:showModal>
+  <h2 slot="header">
+    Edit Modal
+  </h2>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, delectus dignissimos dolorum earum facilis magnam nisi nulla, officiis quidem saepe unde vero? Corporis cum dolore eum id libero, quibusdam quis.
+  </p>
+</Modal>
 
 <style>
   .material-symbols-outlined {

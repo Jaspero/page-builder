@@ -16,7 +16,5 @@
   {/each}
 </div>
 
-<ContextMenu bind:showMenu />
-
 <style lang="scss">
 </style>
