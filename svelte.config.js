@@ -1,5 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
-import {vitePreprocess} from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,12 +8,10 @@ const config = {
     appDir: 'app',
     adapter: adapter(),
     prerender: {
-      entries: [
-        '/'
-      ]
+      entries: ['/']
     },
     paths: {
-      base: process.env.NODE_ENV === 'production' ? '/page-builder' : '',
+      base: process.env.NODE_ENV === 'production' ? '/page-builder' : ''
     }
   }
 };

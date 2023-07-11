@@ -1,6 +1,6 @@
 import type { ModularView } from '@jaspero/modular';
 import type { PageBuilderComponentSlot } from './page-builder-component-slot.interface.ts';
-import type {PageBuilderComponentValue} from './page-builder-component-value.interface.ts';
+import type { PageBuilderComponentValue } from './page-builder-component-value.interface.ts';
 
 export interface PageBuilderComponent {
   selector: string;
@@ -14,8 +14,8 @@ export interface PageBuilderComponent {
   title?: string;
   description?: string;
 
-	defaultValue?: {
-		slots?: Array<{ name?: string; value: string }>;
-		attributes?: any;
-	};
+  defaultValue?: {
+    slots?: Array<{ name?: string; value: string }>;
+    attributes?: any;
+  };
 }
