@@ -1,6 +1,18 @@
 <script>
-  import { save } from './PageBuilder.svelte'
+  import { createEventDispatcher } from 'svelte';
   export let showModal;
+
+  const dispatch = createEventDispatcher();
+
+  function saveModal() {
+    dispatch('saveEvent');
+    dialog.close();
+  }
+
+  function reverseValue() {
+    dispatch('reverse');
+    dialog.close();
+  }
 
   let dialog;
 
@@ -10,15 +22,15 @@
 <dialog
         bind:this={dialog}
         on:close={() => (showModal = false)}
-        on:click|self={() => dialog.close()}
+        on:click|self={() => reverseValue()}
 >
 
   <div on:click|stopPropagation>
     <slot name="header" />
     <hr />
     <slot />
-    <button autofocus on:click={() => dialog.close()}>close</button>
-    <button autofocus on:click={save}>save</button>
+    <button autofocus on:click={() => reverseValue()}>close</button>
+    <button autofocus on:click={saveModal}>save</button>
   </div>
 </dialog>
 

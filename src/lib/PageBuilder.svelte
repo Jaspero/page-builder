@@ -34,6 +34,7 @@
   let draggingItem = null;
   let draggingItemIndex = null;
   let editing = null;
+  let currentValue = null;
 
   let hoveredItemIndex = null;
   let showModal = false;
@@ -54,7 +55,11 @@
   });
 
   export function save() {
-    console.log('Saved!');
+    refreshIframe()
+  }
+
+  export function reverseValue() {
+    value[editing] = JSON.parse(currentValue);
   }
 
   function refreshIframe() {
@@ -105,11 +110,9 @@
     refreshIframe();
   }
 
-  function openEdit(item, ind) {
-    editing = {
-      value: item,
-      ind,
-    }
+  function openEdit(ind, item) {
+    editing = ind;
+    currentValue = JSON.stringify(item);
     showModal = true;
   }
 
@@ -222,7 +225,7 @@
           <div class="box">
             <p>{item.selector}</p>
             <div class="box">
-              <Button variant="icon" on:click={() => openEdit(item, index)} active={previewStyle === 'tablet'}>
+              <Button variant="icon" on:click={() => openEdit(index, item)} active={previewStyle === 'tablet'}>
               <span class="material-symbols-outlined">
               edit
               </span>
@@ -259,12 +262,12 @@
   {/if}
 </div>
 
-<Modal bind:showModal>
+<Modal bind:showModal on:saveEvent={save} on:reverse={reverseValue}>
   <h2 slot="header">
     Edit Modal
   </h2>
-  {#if editing && editing.value && editing.value.slots}
-    {#each editing.value.slots as slot}
+  {#if value && value[editing] && value[editing].slots}
+    {#each value[editing].slots as slot}
       <textarea bind:value={slot.value}></textarea>
     {/each}
   {/if}
