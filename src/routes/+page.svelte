@@ -16,7 +16,8 @@
         defaultValue: {
           slots: [{ value: 'This is default' }],
           attributes: {
-            theme: 'blup'
+            color: 'blue',
+            'background-color': '#e4ed12'
           }
         }
       },
@@ -30,7 +31,8 @@
         defaultValue: {
           slots: [{ value: 'This is new component' }],
           attributes: {
-            theme: 'blup'
+            color: 'red',
+            'background-color': '#e4ed12'
           }
         }
       }
@@ -41,7 +43,8 @@
     {
       selector: 'example-content',
       attributes: {
-        theme: 'simple'
+        color: 'red',
+        'background-color': '#74781c'
       },
       slots: [{ value: 'Cooly' }]
     }

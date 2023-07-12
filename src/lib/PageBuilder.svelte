@@ -62,6 +62,12 @@
     value[editing] = JSON.parse(currentValue);
   }
 
+  function formatStyle(styles) {
+    return Object.entries(styles)
+            .map(([key, value]) => `${key}:${value}`)
+            .join(';');
+  }
+
   function refreshIframe() {
     iframeEl.contentWindow.location.reload();
     setTimeout(() => {
@@ -82,7 +88,8 @@
     const el = new Block({
       target: iframeDoc.body,
       props: {
-        component: value || component.defaultValue
+        component: value || component.defaultValue,
+        style: formatStyle(value?.attributes) || ''
       }
     });
     if (repopulate) {
@@ -111,6 +118,7 @@
   }
 
   function openEdit(ind, item) {
+    console.log('item', item);
     editing = ind;
     currentValue = JSON.stringify(item);
     showModal = true;

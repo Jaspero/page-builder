@@ -1,6 +1,7 @@
 <script lang="ts">
 
   export let component;
+  export let style;
   let showMenu = false;
 
   function rightClickContextMenu(event) {
@@ -9,8 +10,7 @@
     event.preventDefault();
   }
 </script>
-
-<div>
+<div style="{style}">
   {#each component.slots as slot}
     <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
   {/each}
