@@ -279,6 +279,9 @@
       <textarea bind:value={slot.value}></textarea>
     {/each}
   {/if}
+  {#if value && value[editing] && value[editing].attributes}
+    <textarea bind:value={value[editing].attributes}></textarea>
+  {/if}
 </Modal>
 
 <style>
