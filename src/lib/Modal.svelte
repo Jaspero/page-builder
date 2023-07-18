@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  export let showModal;
+  
+  export let showModal: boolean;
 
   const dispatch = createEventDispatcher();
 
@@ -20,11 +21,10 @@
 </script>
 
 <dialog
-        bind:this={dialog}
-        on:close={() => (showModal = false)}
-        on:click|self={() => reverseValue()}
+  bind:this={dialog}
+  on:close={() => (showModal = false)}
+  on:click|self={() => reverseValue()}
 >
-
   <div on:click|stopPropagation>
     <slot name="header" />
     <hr />

@@ -10,6 +10,7 @@
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
+  import { ModularInstance, ModularSchema, ModularView } from '@jaspero/modular';
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -33,11 +34,63 @@
 
   let draggingItem = null;
   let draggingItemIndex = null;
-  let editing = null;
-  let currentValue = null;
-
+  let editing: null | number = null;
+  let selectedItem: PageBuilderComponent;
+  let container: HTMLDivElement | null = null;
   let hoveredItemIndex = null;
   let showModal = false;
+  let attributesContainer: HTMLDivElement;
+
+  $: if (
+    draggingItemIndex != null &&
+    hoveredItemIndex != null &&
+    draggingItemIndex != hoveredItemIndex
+  ) {
+    [value[draggingItemIndex], value[hoveredItemIndex]] = [
+      value[hoveredItemIndex],
+      value[draggingItemIndex]
+    ];
+    draggingItemIndex = hoveredItemIndex;
+    refreshIframe();
+  }
+
+  $: if (attributesContainer) {
+    const schema = new ModularSchema({
+      properties: {
+        color: { type: 'string' },
+        'background-color': { type: 'string' }
+      }
+    });
+    const instance = schema.createInstance({});
+    const view = new ModularView({
+      schema,
+      views: [
+        {
+          justify: 'center',
+          container: 'form',
+          items: [
+            {
+              field: '/color',
+              component: 'carbon-input'
+            },
+            {
+              field: '/background-color',
+              component: 'carbon-input'
+            }
+          ]
+        }
+      ]
+    });
+
+    const render = view.render({
+      parentElement: attributesContainer,
+      instance,
+    });
+
+    render.addEventListener("change", (value) => {
+      console.log("the final", value);
+    });
+  }
 
   onMount(() => {
     componentMap = options.components.reduce(
@@ -55,21 +108,21 @@
   });
 
   export function save() {
-    refreshIframe()
+    refreshIframe();
   }
 
   export function reverseValue() {
-    value[editing] = JSON.parse(currentValue);
+    value[editing!] = JSON.parse(JSON.stringify(selectedItem!));
   }
 
   function formatStyle(styles) {
     return Object.entries(styles)
-            .map(([key, value]) => `${key}:${value}`)
-            .join(';');
+      .map(([key, value]) => `${key}:${value}`)
+      .join(';');
   }
 
   function refreshIframe() {
-    iframeEl.contentWindow.location.reload();
+    iframeEl.contentWindow!.location.reload();
     setTimeout(() => {
       iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
       if (value) {
@@ -91,7 +144,7 @@
         component: value || component.defaultValue,
         style: formatStyle(value?.attributes) || ''
       }
-    });
+    }) as any;
     if (repopulate) {
       renderedComponents.push({
         el,
@@ -117,63 +170,50 @@
     refreshIframe();
   }
 
-  function openEdit(ind, item) {
+  function openEdit(ind: number, item: PageBuilderComponent) {
     console.log('item', item);
     editing = ind;
-    currentValue = JSON.stringify(item);
+    selectedItem = item;
     showModal = true;
   }
 
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
   }
-
-  $: {
-    if (
-      draggingItemIndex != null &&
-      hoveredItemIndex != null &&
-      draggingItemIndex != hoveredItemIndex
-    ) {
-      [value[draggingItemIndex], value[hoveredItemIndex]] = [
-        value[hoveredItemIndex],
-        value[draggingItemIndex]
-      ];
-      draggingItemIndex = hoveredItemIndex;
-      refreshIframe();
-    }
-  }
-
-  let container = null;
 </script>
 
 <div>
   <header class="pb-header">
     <div>
-      <Button variant="icon" on:click={() => (previewStyle = 'desktop')} active={previewStyle === 'desktop'}>
-        <span class="material-symbols-outlined">
-        laptop_mac
-        </span>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'desktop')}
+        active={previewStyle === 'desktop'}
+      >
+        <span class="material-symbols-outlined"> laptop_mac </span>
       </Button>
 
-      <Button variant="icon" on:click={() => (previewStyle = 'tablet')} active={previewStyle === 'tablet'}>
-        <span class="material-symbols-outlined">
-        tablet
-        </span>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'tablet')}
+        active={previewStyle === 'tablet'}
+      >
+        <span class="material-symbols-outlined"> tablet </span>
       </Button>
 
-      <Button variant="icon" on:click={() => (previewStyle = 'mobile')} active={previewStyle === 'mobile'}>
-        <span class="material-symbols-outlined">
-        smartphone
-        </span>
+      <Button
+        variant="icon"
+        on:click={() => (previewStyle = 'mobile')}
+        active={previewStyle === 'mobile'}
+      >
+        <span class="material-symbols-outlined"> smartphone </span>
       </Button>
     </div>
 
     <div>
       <Button on:click={() => (componentGallery = true)}>
         <slot slot="prefix">
-          <span class="material-symbols-outlined">
-          add
-          </span>
+          <span class="material-symbols-outlined"> add </span>
         </slot>
 
         Add Component
@@ -192,14 +232,10 @@
             <p>{draggingItem.selector}</p>
             <div class="box">
               <Button variant="icon" active={previewStyle === 'tablet'}>
-              <span class="material-symbols-outlined">
-              edit
-              </span>
+                <span class="material-symbols-outlined"> edit </span>
               </Button>
               <Button variant="icon" active={previewStyle === 'tablet'}>
-              <span class="material-symbols-outlined">
-              delete_forever
-              </span>
+                <span class="material-symbols-outlined"> delete_forever </span>
               </Button>
             </div>
           </div>
@@ -233,15 +269,19 @@
           <div class="box">
             <p>{item.selector}</p>
             <div class="box">
-              <Button variant="icon" on:click={() => openEdit(index, item)} active={previewStyle === 'tablet'}>
-              <span class="material-symbols-outlined">
-              edit
-              </span>
+              <Button
+                variant="icon"
+                on:click={() => openEdit(index, item)}
+                active={previewStyle === 'tablet'}
+              >
+                <span class="material-symbols-outlined"> edit </span>
               </Button>
-              <Button variant="icon" on:click={() => removeComponent(index)} active={previewStyle === 'tablet'}>
-              <span class="material-symbols-outlined">
-              delete_forever
-              </span>
+              <Button
+                variant="icon"
+                on:click={() => removeComponent(index)}
+                active={previewStyle === 'tablet'}
+              >
+                <span class="material-symbols-outlined"> delete_forever </span>
               </Button>
             </div>
           </div>
@@ -271,26 +311,20 @@
 </div>
 
 <Modal bind:showModal on:saveEvent={save} on:reverse={reverseValue}>
-  <h2 slot="header">
-    Edit Modal
-  </h2>
-  {#if value && value[editing] && value[editing].slots}
+  <h2 slot="header">Edit Modal</h2>
+  {#if value?.[editing]?.slots}
     {#each value[editing].slots as slot}
-      <textarea bind:value={slot.value}></textarea>
+      <textarea bind:value={slot.value} />
     {/each}
   {/if}
-  {#if value && value[editing] && value[editing].attributes}
-    <textarea bind:value={value[editing].attributes}></textarea>
+  {#if value?.[editing]?.attributes}
+    <div bind:this={attributesContainer} />
   {/if}
 </Modal>
 
 <style>
   .material-symbols-outlined {
-    font-variation-settings:
-            'FILL' 0,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 48
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
 
   .pb {

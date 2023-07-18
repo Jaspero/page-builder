@@ -29,12 +29,12 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@jaspero/modular": "^1.12.2",
+    "@jaspero/modular": "^1.13.1",
     "@jaspero/modular-components": "^1.10.0",
     "svelte": "^4.0.0"
   },
   "devDependencies": {
-    "@jaspero/modular": "1.12.2",
+    "@jaspero/modular": "1.13.1",
     "@jaspero/modular-components": "1.10.0",
     "@playwright/test": "1.35.1",
     "@sveltejs/adapter-static": "2.0.2",
