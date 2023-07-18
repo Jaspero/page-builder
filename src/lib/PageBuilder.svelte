@@ -58,11 +58,11 @@
   $: if (attributesContainer) {
     const {selector} = renderedComponents[editing!];
     const component = componentMap[selector];
-    const schema = new ModularSchema(component.attributes.schema);
+    const schema = new ModularSchema(component.attributes!.schema);
     const instance = schema.createInstance(selectedItem.attributes);
     const view = new ModularView({
       schema,
-      views: component.attributes.views
+      views: component.attributes!.views
     });
     const render = view.render({
       parentElement: attributesContainer,

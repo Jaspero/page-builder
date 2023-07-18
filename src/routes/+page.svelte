@@ -51,7 +51,7 @@
                 },
                 {
                   field: '/background-color',
-                  component: 'carbon-input'
+                  component: 'carbon-textarea'
                 }
               ]
             }
@@ -97,9 +97,10 @@
   onMount(async () => {
 
     const {CarbonInput} = await import('@jaspero/modular-components/dist/components/carbon-input');
+    const {CarbonTextarea} = await import('@jaspero/modular-components/dist/components/carbon-textarea');
 
     registerComponent('carbon-input', CarbonInput);
-    // registerComponent('carbon-textarea', CarbonTextarea);
+    registerComponent('carbon-textarea', CarbonTextarea);
     // registerComponent('carbon-submit', CarbonSubmit);
     // registerComponent('carbon-button', CarbonButton);
     // registerComponent('carbon-accordion', CarbonAccordion);

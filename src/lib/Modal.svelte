@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  
+
   export let showModal: boolean;
 
   const dispatch = createEventDispatcher();
@@ -25,13 +25,15 @@
   on:close={() => (showModal = false)}
   on:click|self={() => reverseValue()}
 >
-  <div on:click|stopPropagation>
-    <slot name="header" />
-    <hr />
-    <slot />
-    <button autofocus on:click={() => reverseValue()}>close</button>
-    <button autofocus on:click={saveModal}>save</button>
-  </div>
+  {#if showModal}
+    <div on:click|stopPropagation>
+      <slot name="header" />
+      <hr />
+      <slot />
+      <button autofocus on:click={() => reverseValue()}>close</button>
+      <button autofocus on:click={saveModal}>save</button>
+    </div>
+  {/if}
 </dialog>
 
 <style>
