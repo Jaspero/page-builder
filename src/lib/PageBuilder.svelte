@@ -25,6 +25,7 @@
 
   let renderedComponents: Array<{
     el: HTMLElement;
+    selector: string;
     value: PageBuilderComponentValue;
   }> = [];
 
@@ -55,40 +56,21 @@
   }
 
   $: if (attributesContainer) {
-    const schema = new ModularSchema({
-      properties: {
-        color: { type: 'string' },
-        'background-color': { type: 'string' }
-      }
-    });
-    const instance = schema.createInstance({});
+    const {selector} = renderedComponents[editing!];
+    const component = componentMap[selector];
+    const schema = new ModularSchema(component.attributes.schema);
+    const instance = schema.createInstance(selectedItem.attributes);
     const view = new ModularView({
       schema,
-      views: [
-        {
-          justify: 'center',
-          container: 'form',
-          items: [
-            {
-              field: '/color',
-              component: 'carbon-input'
-            },
-            {
-              field: '/background-color',
-              component: 'carbon-input'
-            }
-          ]
-        }
-      ]
+      views: component.attributes.views
     });
-
     const render = view.render({
       parentElement: attributesContainer,
       instance,
     });
 
-    render.addEventListener("change", (value) => {
-      console.log("the final", value);
+    render.addEventListener('change', (value) => {
+      console.log('the final', value);
     });
   }
 
@@ -102,6 +84,7 @@
     );
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
+
     if (value) {
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
@@ -145,12 +128,12 @@
         style: formatStyle(value?.attributes) || ''
       }
     }) as any;
+
     if (repopulate) {
       renderedComponents.push({
         el,
-        value: value
-          ? value
-          : {
+        selector: component.selector,
+        value: value || {
               selector: component.selector
             }
       });

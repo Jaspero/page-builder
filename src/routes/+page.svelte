@@ -46,11 +46,11 @@
               container: 'form',
               items: [
                 {
-                  field: 'color',
+                  field: '/color',
                   component: 'carbon-input'
                 },
                 {
-                  field: 'background-color',
+                  field: '/background-color',
                   component: 'carbon-input'
                 }
               ]
