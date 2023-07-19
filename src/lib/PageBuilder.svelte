@@ -254,9 +254,9 @@
             hoveredItemIndex = null;
           }}
         >
-          <div class="box">
+          <div class="flex justify-between items-center">
             <p>{item.selector}</p>
-            <div class="box">
+            <div class="flex gap-2">
               <Button
                 variant="icon"
                 on:click={() => openEdit(index, item)}
@@ -299,14 +299,16 @@
 </div>
 
 <Modal bind:showModal on:saveEvent={save} on:reverse={reverseValue}>
-  <h2 slot="header">Edit Modal</h2>
+  <svelte:fragment slot="header">Edit Modal</svelte:fragment>
   {#if value?.[editing]?.slots}
     {#each value[editing].slots as slot}
-      <textarea bind:value={slot.value} />
+      <div style="padding: .5rem 1rem">
+        <textarea bind:value={slot.value} />
+      </div>
     {/each}
   {/if}
   {#if value?.[editing]?.attributes}
-    <div bind:this={attributesContainer} />
+    <div bind:this={attributesContainer} style="padding: .5rem" />
   {/if}
 </Modal>
 
@@ -333,7 +335,7 @@
 
   .pb-preview.desktop,
   .pb-preview.tablet,
-  .pb-review.mobile {
+  .pb-preview.mobile {
     grid-column: span 8 / span 8;
   }
 
