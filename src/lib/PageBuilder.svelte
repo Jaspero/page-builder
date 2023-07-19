@@ -41,7 +41,7 @@
   let hoveredItemIndex = null;
   let showModal = false;
   let attributesContainer: HTMLDivElement;
-  let formValues = null;
+  let render = null;
 
   $: if (
     draggingItemIndex != null &&
@@ -59,20 +59,15 @@
   $: if (attributesContainer) {
     const {selector} = renderedComponents[editing!];
     const component = componentMap[selector];
-
     const schema = new ModularSchema(component.attributes!.schema);
     const instance = schema.createInstance(selectedItem.attributes);
     const view = new ModularView({
       schema,
       views: component.attributes!.views
     });
-    const render = view.render({
+    render = view.render({
       parentElement: attributesContainer,
       instance,
-    });
-
-    render.addEventListener('change', (value) => {
-      formValues = value;
     });
   }
 
@@ -93,11 +88,12 @@
   });
 
   export function save() {
-    if (formValues) {
-      renderedComponents[editing!].value.attributes = formValues;
-      refreshIframe();
-    }
-    formValues = null;
+    render.getValue().then(res => {
+      if (res) {
+        renderedComponents[editing!].value.attributes = res;
+        refreshIframe();
+      }
+    })
   }
 
   export function reverseValue() {
@@ -160,7 +156,6 @@
   }
 
   function openEdit(ind: number, item: PageBuilderComponent) {
-    console.log('item', item);
     editing = ind;
     selectedItem = item;
     showModal = true;
