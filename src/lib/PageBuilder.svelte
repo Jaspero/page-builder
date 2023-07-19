@@ -93,9 +93,10 @@
   });
 
   export function save() {
-    console.log('formValues', formValues);
-    renderedComponents[editing!].value.attributes = formValues;
-    refreshIframe();
+    if (formValues) {
+      renderedComponents[editing!].value.attributes = formValues;
+      refreshIframe();
+    }
     formValues = null;
   }
 
