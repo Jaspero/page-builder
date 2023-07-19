@@ -10,7 +10,7 @@
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
-  import { ModularInstance, ModularSchema, ModularView } from '@jaspero/modular';
+  import { ModularSchema, ModularView } from '@jaspero/modular';
 
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
@@ -41,6 +41,7 @@
   let hoveredItemIndex = null;
   let showModal = false;
   let attributesContainer: HTMLDivElement;
+  let formValues = null;
 
   $: if (
     draggingItemIndex != null &&
@@ -58,6 +59,7 @@
   $: if (attributesContainer) {
     const {selector} = renderedComponents[editing!];
     const component = componentMap[selector];
+
     const schema = new ModularSchema(component.attributes!.schema);
     const instance = schema.createInstance(selectedItem.attributes);
     const view = new ModularView({
@@ -70,7 +72,7 @@
     });
 
     render.addEventListener('change', (value) => {
-      console.log('the final', value);
+      formValues = value;
     });
   }
 
@@ -91,7 +93,10 @@
   });
 
   export function save() {
+    console.log('formValues', formValues);
+    renderedComponents[editing!].value.attributes = formValues;
     refreshIframe();
+    formValues = null;
   }
 
   export function reverseValue() {

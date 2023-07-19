@@ -52,6 +52,10 @@
                 {
                   field: '/background-color',
                   component: 'carbon-textarea'
+                },
+                {
+                  field: '/padding',
+                  component: 'carbon-input'
                 }
               ]
             }
@@ -60,8 +64,8 @@
         defaultValue: {
           slots: [{ value: 'This is default' }],
           attributes: {
-            color: 'blue',
-            'background-color': '#e4ed12'
+            color: 'white',
+            'background-color': '#1257ed'
           }
         }
       },
@@ -72,6 +76,30 @@
             type: PageBuilderComponentSlotType.InlineEditor
           }
         ],
+        attributes: {
+          schema: {
+            properties: {
+              color: { type: 'string' },
+              'background-color': { type: 'string' }
+            }
+          },
+          views: [
+            {
+              justify: 'center',
+              container: 'form',
+              items: [
+                {
+                  field: '/color',
+                  component: 'carbon-input'
+                },
+                {
+                  field: '/background-color',
+                  component: 'carbon-textarea'
+                }
+              ]
+            }
+          ]
+        },
         defaultValue: {
           slots: [{ value: 'This is new component' }],
           attributes: {
@@ -88,7 +116,8 @@
       selector: 'example-content',
       attributes: {
         color: 'red',
-        'background-color': '#74781c'
+        'background-color': '#74781c',
+        padding: '50px'
       },
       slots: [{ value: 'Cooly' }]
     }

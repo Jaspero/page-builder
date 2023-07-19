@@ -11,6 +11,6 @@
     "strict": true,
     "moduleResolution": "NodeNext",
     "allowImportingTsExtensions": true,
-    "noImplicitAny": false
+    "@typescript-eslint/no-non-null-assertion": true
   }
 }
