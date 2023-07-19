@@ -36,38 +36,23 @@
   </button>
 {/if}
 
-<style lang="scss">
+<style lang="postcss">
   a,
   button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @apply flex justify-center items-center
   }
 
-  .variant {
-    &-filled {
-      min-width: 2.5rem;
-      height: 2.5rem;
-      gap: 0.75rem;
-      padding: var(--button-y-padding) var(--button-x-padding);
-      border-radius: var(--button-br);
-      border: none;
-
-      /* Colors */
-      &.primary {
-        background-color: var(--primary);
-        color: var(--primary-contrast);
-      }
-      &.secondary {
-        background-color: var(--secondary);
-        color: var(--secondary-contrast);
-      }
-
-      &.has-prefix {
-        padding-left: 0.75rem;
-      }
-    }
+  .variant-filled {
+    @apply min-w-[2.5rem] h-10 gap-3 px-4 py-2 rounded
   }
+
+  .variant-filled.primary {
+    @apply bg-black text-white
+  }
+
+  .has-prefix {
+    @apply pl-3
+   }
 
   .variant-icon {
     width: 2.5rem;
@@ -81,8 +66,8 @@
     transition: 0.25s;
   }
 
-  .variant-icon.active {
+  /*.variant-icon.active {
     background-color: var(--primary);
     color: var(--secondary);
-  }
+  }*/
 </style>

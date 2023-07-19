@@ -164,11 +164,12 @@
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
   }
+
 </script>
 
 <div>
   <header class="pb-header">
-    <div>
+    <div class="flex gap-2">
       <Button
         variant="icon"
         on:click={() => (previewStyle = 'desktop')}
@@ -212,9 +213,9 @@
     <div class="pb-preview container" bind:this={container}>
       {#if mouseYCoordinate}
         <div class="item ghost" style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
-          <div class="box">
+          <div class="flex justify-between items-center">
             <p>{draggingItem.selector}</p>
-            <div class="box">
+            <div class="flex gap-2">
               <Button variant="icon" active={previewStyle === 'tablet'}>
                 <span class="material-symbols-outlined"> edit </span>
               </Button>
@@ -228,7 +229,8 @@
 
       {#each value as item, index (item)}
         <div
-          class="item {draggingItemHide === item ? 'invisible' : ''}"
+          class="item"
+          class:invisible={draggingItem === item}
           draggable="true"
           on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
@@ -252,7 +254,7 @@
         >
           <div class="flex justify-between items-center">
             <p>{item.selector}</p>
-            <div class="flex gap-2">
+            <div class="flex items-center gap-2">
               <Button
                 variant="icon"
                 on:click={() => openEdit(index, item)}
@@ -308,86 +310,54 @@
   {/if}
 </Modal>
 
-<style>
+<style lang="postcss">
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
 
   .pb {
-    border: 1px solid #ccc;
-    position: relative;
+    @apply relative border
   }
 
   .pb-grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    @apply flex gap-2
   }
 
   .pb-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
+    @apply flex justify-between p-4
   }
 
   .pb-preview.desktop,
   .pb-preview.tablet,
   .pb-preview.mobile {
-    grid-column: span 8 / span 8;
+    @apply flex-1
   }
 
   .pb-preview.container {
-    position: relative;
-    grid-column: span 4 / span 4;
-    padding: 10px;
-  }
-
-  .pb-header div:first-child {
-    display: flex;
-    gap: 0.5rem;
+    @apply relative max-w-[400px] flex flex-col gap-2 p-2
   }
 
   iframe {
-    width: 100%;
-    display: block;
-    border: none;
-    height: 100%;
+    @apply block w-full h-full
   }
 
   .component-gallery {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-bottom: 1px solid #ccc;
-    min-height: 300px;
-    background-color: white;
-    z-index: 1;
+    @apply z-50 absolute top-0 left-0 w-full h-full border-b bg-white
   }
 
   .item {
-    width: 100%;
-    background: white;
-    padding: 10px;
-    border: black solid 1px;
-    margin-bottom: 10px;
-    cursor: grab;
+    @apply w-full bg-white p-2 border border-black cursor-grab active:cursor-grabbing max-w-[calc(400px-1rem)]
   }
 
   .ghost {
-    margin-bottom: 10px;
-    pointer-events: none;
-    z-index: 99;
-    position: absolute;
-    width: 100%;
+    @apply z-10 absolute
   }
 
   .invisible {
-    opacity: 0;
+    @apply opacity-0
   }
 
   .box {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+    @apply flex justify-between flex-row
   }
 </style>
