@@ -156,7 +156,6 @@
   }
 
   function openEdit(ind: number, item: PageBuilderComponent) {
-    console.log('item', item);
     editing = ind;
     selectedItem = item;
     showModal = true;
