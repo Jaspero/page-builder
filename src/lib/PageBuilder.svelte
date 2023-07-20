@@ -6,7 +6,6 @@
   import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
   import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
-  import { fly } from 'svelte/transition';
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
@@ -42,6 +41,8 @@
   let showModal = false;
   let attributesContainer: HTMLDivElement;
   let render = null;
+
+  $: console.log(mouseYCoordinate)
 
   $: if (
     draggingItemIndex != null &&
@@ -165,6 +166,7 @@
     value = renderedComponents.map((c) => c.value);
   }
 
+  document.addEventListener('dragover', function(e) {e.preventDefault()})
 </script>
 
 <div>
@@ -200,7 +202,6 @@
         <slot slot="prefix">
           <span class="material-symbols-outlined"> add </span>
         </slot>
-
         Add Component
       </Button>
     </div>
@@ -229,16 +230,13 @@
 
       {#each value as item, index (item)}
         <div
-          class="item"
-          class:invisible={draggingItem === item}
+          class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
           draggable="true"
           on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
-
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
-
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
           }}
           on:drag={(e) => {
@@ -248,6 +246,7 @@
             hoveredItemIndex = index;
           }}
           on:dragend={(e) => {
+            mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
           }}
@@ -278,8 +277,6 @@
 
   {#if componentGallery}
     <div
-      in:fly={{ x: 200, duration: 500 }}
-      out:fly={{ x: -200, duration: 500 }}
       class="component-gallery"
     >
       <Button on:click={() => (componentGallery = false)}>Close</Button>
@@ -346,7 +343,7 @@
   }
 
   .item {
-    @apply w-full bg-white p-2 border border-black cursor-grab active:cursor-grabbing max-w-[calc(400px-1rem)]
+    @apply w-full bg-white p-2 border border-black cursor-grab max-w-[calc(400px-1rem)] select-none
   }
 
   .ghost {
