@@ -42,8 +42,6 @@
   let attributesContainer: HTMLDivElement;
   let render = null;
 
-  $: console.log(mouseYCoordinate)
-
   $: if (
     draggingItemIndex != null &&
     hoveredItemIndex != null &&
