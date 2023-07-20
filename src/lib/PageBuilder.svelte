@@ -43,13 +43,13 @@
   let render = null;
 
   $: if (
-    draggingItemIndex != null &&
-    hoveredItemIndex != null &&
-    draggingItemIndex != hoveredItemIndex
+          draggingItemIndex != null &&
+          hoveredItemIndex != null &&
+          draggingItemIndex != hoveredItemIndex
   ) {
-    [value[draggingItemIndex], value[hoveredItemIndex]] = [
-      value[hoveredItemIndex],
-      value[draggingItemIndex]
+    [renderedComponents[draggingItemIndex], renderedComponents[hoveredItemIndex]] = [
+      renderedComponents[hoveredItemIndex],
+      renderedComponents[draggingItemIndex]
     ];
     draggingItemIndex = hoveredItemIndex;
     refreshIframe();
@@ -75,11 +75,11 @@
       document.addEventListener('dragover', function(e) {e.preventDefault()})
     }
     componentMap = options.components.reduce(
-      (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
-        acc[cur.selector] = cur;
-        return acc;
-      },
-      {}
+            (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
+              acc[cur.selector] = cur;
+              return acc;
+            },
+            {}
     );
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
@@ -87,6 +87,7 @@
     if (value) {
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
+
   });
 
   export function save() {
@@ -104,26 +105,23 @@
 
   function formatStyle(styles) {
     return Object.entries(styles)
-      .map(([key, value]) => `${key}:${value}`)
-      .join(';');
+            .map(([key, value]) => `${key}:${value}`)
+            .join(';');
   }
 
   function refreshIframe() {
     iframeEl.contentWindow!.location.reload();
     setTimeout(() => {
       iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
-      if (value) {
-        value.forEach((v: PageBuilderComponentValue) =>
-          addComponent(componentMap[v.selector], v, false)
-        );
-      }
+      updateValue();
+      value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
     }, 50);
   }
 
   function addComponent(
-    component: PageBuilderComponent,
-    value?: PageBuilderComponentValue,
-    repopulate = true
+          component: PageBuilderComponent,
+          value?: PageBuilderComponentValue,
+          repopulate = true
   ) {
     const el = new Block({
       target: iframeDoc.body,
@@ -138,8 +136,8 @@
         el,
         selector: component.selector,
         value: value || {
-              selector: component.selector
-            }
+          selector: component.selector
+        }
       });
     }
   }
@@ -172,25 +170,25 @@
   <header class="pb-header">
     <div class="flex gap-2">
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'desktop')}
-        active={previewStyle === 'desktop'}
+              variant="icon"
+              on:click={() => (previewStyle = 'desktop')}
+              active={previewStyle === 'desktop'}
       >
         <span class="material-symbols-outlined"> laptop_mac </span>
       </Button>
 
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'tablet')}
-        active={previewStyle === 'tablet'}
+              variant="icon"
+              on:click={() => (previewStyle = 'tablet')}
+              active={previewStyle === 'tablet'}
       >
         <span class="material-symbols-outlined"> tablet </span>
       </Button>
 
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'mobile')}
-        active={previewStyle === 'mobile'}
+              variant="icon"
+              on:click={() => (previewStyle = 'mobile')}
+              active={previewStyle === 'mobile'}
       >
         <span class="material-symbols-outlined"> smartphone </span>
       </Button>
@@ -227,56 +225,58 @@
         </div>
       {/if}
 
-      {#each value as item, index (item)}
-        <div
-          class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
-          draggable="true"
-          on:dragstart={(e) => {
+      {#if renderedComponents.length}
+        {#each renderedComponents as item, index (item)}
+          <div
+                  class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
+                  draggable="true"
+                  on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
           }}
-          on:drag={(e) => {
+                  on:drag={(e) => {
             mouseYCoordinate = e.clientY;
           }}
-          on:dragover={(e) => {
+                  on:dragover={(e) => {
             hoveredItemIndex = index;
           }}
-          on:dragend={(e) => {
+                  on:dragend={(e) => {
             mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
           }}
-        >
-          <div class="flex justify-between items-center">
-            <p>{item.selector}</p>
-            <div class="flex items-center gap-2">
-              <Button
-                variant="icon"
-                on:click={() => openEdit(index, item)}
-                active={previewStyle === 'tablet'}
-              >
-                <span class="material-symbols-outlined"> edit </span>
-              </Button>
-              <Button
-                variant="icon"
-                on:click={() => removeComponent(index)}
-                active={previewStyle === 'tablet'}
-              >
-                <span class="material-symbols-outlined"> delete_forever </span>
-              </Button>
+          >
+            <div class="flex justify-between items-center">
+              <p>{item.selector}</p>
+              <div class="flex items-center gap-2">
+                <Button
+                        variant="icon"
+                        on:click={() => openEdit(index, item)}
+                        active={previewStyle === 'tablet'}
+                >
+                  <span class="material-symbols-outlined"> edit </span>
+                </Button>
+                <Button
+                        variant="icon"
+                        on:click={() => removeComponent(index)}
+                        active={previewStyle === 'tablet'}
+                >
+                  <span class="material-symbols-outlined"> delete_forever </span>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      {/each}
+        {/each}
+      {/if}
     </div>
   </div>
 
   {#if componentGallery}
     <div
-      class="component-gallery"
+            class="component-gallery"
     >
       <Button on:click={() => (componentGallery = false)}>Close</Button>
 
