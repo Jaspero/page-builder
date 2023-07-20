@@ -35,7 +35,7 @@
   let draggingItem = null;
   let draggingItemIndex = null;
   let editing: null | number = null;
-  let selectedItem: PageBuilderComponent;
+  let selectedItem = null;
   let container: HTMLDivElement | null = null;
   let hoveredItemIndex = null;
   let showModal = false;
@@ -59,7 +59,7 @@
     const {selector} = renderedComponents[editing!];
     const component = componentMap[selector];
     const schema = new ModularSchema(component.attributes!.schema);
-    const instance = schema.createInstance(selectedItem.attributes);
+    const instance = schema.createInstance(selectedItem.value.attributes);
     const view = new ModularView({
       schema,
       views: component.attributes!.views
@@ -100,7 +100,7 @@
   }
 
   export function reverseValue() {
-    value[editing!] = JSON.parse(JSON.stringify(selectedItem!));
+    renderedComponents[editing!].value = JSON.parse(JSON.stringify(selectedItem!.value));
   }
 
   function formatStyle(styles) {
@@ -156,6 +156,7 @@
   }
 
   function openEdit(ind: number, item: PageBuilderComponent) {
+    console.log('item', item);
     editing = ind;
     selectedItem = item;
     showModal = true;
@@ -225,52 +226,50 @@
         </div>
       {/if}
 
-      {#if renderedComponents.length}
-        {#each renderedComponents as item, index (item)}
-          <div
-                  class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
-                  draggable="true"
-                  on:dragstart={(e) => {
+      {#each renderedComponents as item, index (item)}
+        <div
+                class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
+                draggable="true"
+                on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
           }}
-                  on:drag={(e) => {
+                on:drag={(e) => {
             mouseYCoordinate = e.clientY;
           }}
-                  on:dragover={(e) => {
+                on:dragover={(e) => {
             hoveredItemIndex = index;
           }}
-                  on:dragend={(e) => {
+                on:dragend={(e) => {
             mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
           }}
-          >
-            <div class="flex justify-between items-center">
-              <p>{item.selector}</p>
-              <div class="flex items-center gap-2">
-                <Button
-                        variant="icon"
-                        on:click={() => openEdit(index, item)}
-                        active={previewStyle === 'tablet'}
-                >
-                  <span class="material-symbols-outlined"> edit </span>
-                </Button>
-                <Button
-                        variant="icon"
-                        on:click={() => removeComponent(index)}
-                        active={previewStyle === 'tablet'}
-                >
-                  <span class="material-symbols-outlined"> delete_forever </span>
-                </Button>
-              </div>
+        >
+          <div class="flex justify-between items-center">
+            <p>{item.selector}</p>
+            <div class="flex items-center gap-2">
+              <Button
+                      variant="icon"
+                      on:click={() => openEdit(index, item)}
+                      active={previewStyle === 'tablet'}
+              >
+                <span class="material-symbols-outlined"> edit </span>
+              </Button>
+              <Button
+                      variant="icon"
+                      on:click={() => removeComponent(index)}
+                      active={previewStyle === 'tablet'}
+              >
+                <span class="material-symbols-outlined"> delete_forever </span>
+              </Button>
             </div>
           </div>
-        {/each}
-      {/if}
+        </div>
+      {/each}
     </div>
   </div>
 
