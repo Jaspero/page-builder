@@ -42,8 +42,6 @@
   let attributesContainer: HTMLDivElement;
   let render = null;
 
-  $: console.log(mouseYCoordinate)
-
   $: if (
     draggingItemIndex != null &&
     hoveredItemIndex != null &&
@@ -73,6 +71,9 @@
   }
 
   onMount(() => {
+    if (window) {
+      document.addEventListener('dragover', function(e) {e.preventDefault()})
+    }
     componentMap = options.components.reduce(
       (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
         acc[cur.selector] = cur;
@@ -165,8 +166,6 @@
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
   }
-
-  document.addEventListener('dragover', function(e) {e.preventDefault()})
 </script>
 
 <div>
