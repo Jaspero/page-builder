@@ -54,7 +54,9 @@
       renderedComponents[draggingItemIndex]
     ];
     draggingItemIndex = hoveredItemIndex;
-    refreshIframe();
+    if (!reRenderTIme) {
+      refreshIframe();
+    }
   }
 
   $ :if (attributesContainer && !render) {
@@ -120,14 +122,12 @@
 
   function refreshIframe() {
     iframeEl.contentWindow!.location.reload();
-    if (!reRenderTIme) {
-      reRenderTIme = setTimeout(() => {
-        iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
-        updateValue();
-        value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
-        reRenderTIme = null
-      }, 50);
-    }
+    reRenderTIme = setTimeout(() => {
+      iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
+      updateValue();
+      value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
+      reRenderTIme = null
+    }, 50);
   }
 
   function addComponent(
