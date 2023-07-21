@@ -36,7 +36,7 @@
   let draggingItemIndex = null;
   let editing: null | number = null;
   let selectedItem = null;
-  let container: HTMLDivElement | null = null;
+  let container: HTMLDivElement | null;
   let hoveredItemIndex = null;
   let showModal = false;
   let attributesContainer: HTMLDivElement | null;
