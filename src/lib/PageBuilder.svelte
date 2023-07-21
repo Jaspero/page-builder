@@ -39,7 +39,8 @@
   let container: HTMLDivElement | null = null;
   let hoveredItemIndex = null;
   let showModal = false;
-  let attributesContainer: HTMLDivElement;
+  let attributesContainer: HTMLDivElement | null;
+  let textSlots = null;
   let render = null;
 
   $: if (
@@ -55,7 +56,7 @@
     refreshIframe();
   }
 
-  $: if (attributesContainer) {
+  $ :if (attributesContainer && !render) {
     const {selector} = renderedComponents[editing!];
     const component = componentMap[selector];
     const schema = new ModularSchema(component.attributes!.schema);
@@ -69,6 +70,7 @@
       instance,
     });
   }
+
 
   onMount(() => {
     if (window) {
@@ -94,13 +96,19 @@
     render.getValue().then(res => {
       if (res) {
         renderedComponents[editing!].value.attributes = res;
+        renderedComponents[editing!].value.slots = textSlots;
+        textSlots = null;
         refreshIframe();
       }
+      render = null;
+      attributesContainer = null;
     })
   }
 
   export function reverseValue() {
     renderedComponents[editing!].value = JSON.parse(JSON.stringify(selectedItem!.value));
+    render = null;
+    attributesContainer = null;
   }
 
   function formatStyle(styles) {
@@ -154,9 +162,10 @@
     refreshIframe();
   }
 
-  function openEdit(ind: number, item: PageBuilderComponent) {
+  function openEdit(ind: number, item) {
     editing = ind;
     selectedItem = item;
+    textSlots = JSON.parse(JSON.stringify(item.value.slots));
     showModal = true;
   }
 
@@ -292,16 +301,14 @@
 
 <Modal bind:showModal on:saveEvent={save} on:reverse={reverseValue}>
   <svelte:fragment slot="header">Edit Modal</svelte:fragment>
-  {#if value?.[editing]?.slots}
-    {#each value[editing].slots as slot}
+  {#if textSlots}
+    {#each textSlots as slot}
       <div style="padding: .5rem 1rem">
         <textarea bind:value={slot.value} />
       </div>
     {/each}
   {/if}
-  {#if value?.[editing]?.attributes}
-    <div bind:this={attributesContainer} style="padding: .5rem" />
-  {/if}
+  <div bind:this={attributesContainer} style="padding: .5rem" />
 </Modal>
 
 <style lang="postcss">
