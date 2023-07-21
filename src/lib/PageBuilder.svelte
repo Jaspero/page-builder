@@ -162,6 +162,7 @@
 
   function updateValue() {
     value = renderedComponents.map((c) => c.value);
+    renderedComponents = [...renderedComponents];
   }
 </script>
 
