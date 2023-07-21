@@ -47,15 +47,24 @@
               items: [
                 {
                   field: '/color',
-                  component: 'carbon-input'
+                  component: 'carbon-input',
+                  options: {
+                    label: 'Color'
+                  }
                 },
                 {
                   field: '/background-color',
-                  component: 'carbon-textarea'
+                  component: 'carbon-textarea',
+                  options: {
+                    label: 'Background Color'
+                  }
                 },
                 {
                   field: '/padding',
-                  component: 'carbon-input'
+                  component: 'carbon-input',
+                  options: {
+                    label: 'Padding'
+                  }
                 }
               ]
             }
@@ -90,11 +99,17 @@
               items: [
                 {
                   field: '/color',
-                  component: 'carbon-input'
+                  component: 'carbon-input',
+                  options: {
+                    label: 'Color'
+                  }
                 },
                 {
                   field: '/background-color',
-                  component: 'carbon-textarea'
+                  component: 'carbon-textarea',
+                  options: {
+                    label: 'Background Color'
+                  }
                 }
               ]
             }

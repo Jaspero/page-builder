@@ -139,6 +139,7 @@
           selector: component.selector
         }
       });
+      updateValue();
     }
   }
 
@@ -146,12 +147,10 @@
     const component = componentMap[selector];
     addComponent(component, { ...(component.defaultValue || {}), selector });
     componentGallery = false;
-    updateValue();
   }
 
   function removeComponent(index: number) {
     renderedComponents.splice(index, 1);
-    updateValue();
     refreshIframe();
   }
 
