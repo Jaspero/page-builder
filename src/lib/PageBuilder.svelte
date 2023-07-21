@@ -42,6 +42,7 @@
   let attributesContainer: HTMLDivElement | null;
   let textSlots = null;
   let render = null;
+  let reRenderTIme = null;
 
   $: if (
           draggingItemIndex != null &&
@@ -119,11 +120,14 @@
 
   function refreshIframe() {
     iframeEl.contentWindow!.location.reload();
-    setTimeout(() => {
-      iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
-      updateValue();
-      value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
-    }, 50);
+    if (!reRenderTIme) {
+      reRenderTIme = setTimeout(() => {
+        iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
+        updateValue();
+        value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
+        reRenderTIme = null
+      }, 50);
+    }
   }
 
   function addComponent(
