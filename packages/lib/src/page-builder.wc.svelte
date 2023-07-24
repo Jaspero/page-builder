@@ -1,13 +1,16 @@
-<svelte:options customElement="jp-page-builder" />
+<svelte:options customElement={{
+  tag: 'jp-page-builder',
+  shadow: 'none'
+}} />
 
 <script lang="ts">
-  import Block from '$lib/Block.svelte';
   import { onMount } from 'svelte';
   import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
   import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
   import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
+  import Block from './Block.svelte';
   import Modal from './Modal.svelte';
   import { ModularSchema, ModularView } from '@jaspero/modular';
 
@@ -219,7 +222,7 @@
 
   <div class="pb-grid">
     <div class="pb pb-preview {previewStyle}">
-      <iframe bind:this={iframeEl} />
+      <iframe title="frame" bind:this={iframeEl} />
     </div>
     <div class="pb-preview container" bind:this={container}>
       {#if mouseYCoordinate}
@@ -242,6 +245,7 @@
         <div
                 class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
                 draggable="true"
+                aria-hidden="true"
                 on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
             draggingItem = item;
@@ -321,48 +325,48 @@
   }
 
   .pb {
-    @apply relative border
+    @apply relative border;
   }
 
   .pb-grid {
-    @apply flex gap-2
+    @apply flex gap-2;
   }
 
   .pb-header {
-    @apply flex justify-between p-4
+    @apply flex justify-between p-4;
   }
 
   .pb-preview.desktop,
   .pb-preview.tablet,
   .pb-preview.mobile {
-    @apply flex-1
+    @apply flex-1;
   }
 
   .pb-preview.container {
-    @apply relative max-w-[400px] flex flex-col gap-2 p-2
+    @apply relative max-w-[400px] flex flex-col gap-2 p-2;
   }
 
   iframe {
-    @apply block w-full h-full
+    @apply block w-full h-full;
   }
 
   .component-gallery {
-    @apply z-50 absolute top-0 left-0 w-full h-full border-b bg-white
+    @apply z-50 absolute top-0 left-0 w-full h-full border-b bg-white;
   }
 
   .item {
-    @apply w-full bg-white p-2 border border-black cursor-grab max-w-[calc(400px-1rem)] select-none
+    @apply w-full bg-white p-2 border border-black cursor-grab max-w-[calc(400px-1rem)] select-none;
   }
 
   .ghost {
-    @apply z-10 absolute
+    @apply z-10 absolute;
   }
 
   .invisible {
-    @apply opacity-0
+    @apply opacity-0;
   }
 
   .box {
-    @apply flex justify-between flex-row
+    @apply flex justify-between flex-row;
   }
 </style>

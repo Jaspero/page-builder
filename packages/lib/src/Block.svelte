@@ -12,7 +12,7 @@
 
 <div {style}>
   {#each component.slots as slot}
-    <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
+    <div aria-hidden="true" on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
   {/each}
 </div>
 

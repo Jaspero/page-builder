@@ -24,10 +24,10 @@
 <dialog
   bind:this={dialog}
   on:close={() => (showModal = false)}
-  on:click|self={() => reverseValue()}
+  on:click|self={reverseValue}
   class="max-w-lg rounded backdrop:bg-black/30">
   {#if showModal}
-    <div on:click|stopPropagation>
+    <div aria-hidden="true" on:click|stopPropagation>
       <header class="text-2xl font-bold p-4 mb-4 border-b border-b-black/25">
         <slot name="header" />
       </header>

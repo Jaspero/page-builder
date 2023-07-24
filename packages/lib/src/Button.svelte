@@ -39,19 +39,19 @@
 <style lang="postcss">
   a,
   button {
-    @apply flex justify-center items-center
+    @apply flex justify-center items-center;
   }
 
   .variant-filled {
-    @apply min-w-[2.5rem] h-10 gap-3 px-4 py-2 rounded
+    @apply min-w-[2.5rem] h-10 gap-3 px-4 py-2 rounded;
   }
 
   .variant-filled.primary {
-    @apply bg-black text-white
+    @apply bg-black text-white;
   }
 
   .has-prefix {
-    @apply pl-3
+    @apply pl-3;
    }
 
   .variant-icon {

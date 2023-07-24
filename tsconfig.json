@@ -10,7 +10,6 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "NodeNext",
-    "allowImportingTsExtensions": true,
-    "@typescript-eslint/no-non-null-assertion": true
+    "allowImportingTsExtensions": true
   }
 }
