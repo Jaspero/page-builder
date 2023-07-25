@@ -46,7 +46,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: './src/types/',
+          src: './src/interface/',
           dest: '../../dist/lib/'
         }
       ]
