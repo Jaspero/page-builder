@@ -1,5 +1,6 @@
 export default () => {
   import('./src/page-builder.wc.svelte');
+  import('./src/bla.wc.svelte');
 
   /**
    * Types

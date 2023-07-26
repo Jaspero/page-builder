@@ -52,7 +52,7 @@
 
   .has-prefix {
     @apply pl-3;
-   }
+  }
 
   .variant-icon {
     width: 2.5rem;

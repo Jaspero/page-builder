@@ -1,7 +1,9 @@
-<svelte:options customElement={{
-  tag: 'jp-page-builder',
-  shadow: 'none'
-}} />
+<svelte:options
+  customElement={{
+    tag: 'jp-page-builder',
+    shadow: 'none'
+  }}
+/>
 
 <script lang="ts">
   import { onMount } from 'svelte';
@@ -48,9 +50,9 @@
   let reRenderTIme = null;
 
   $: if (
-          draggingItemIndex != null &&
-          hoveredItemIndex != null &&
-          draggingItemIndex != hoveredItemIndex
+    draggingItemIndex != null &&
+    hoveredItemIndex != null &&
+    draggingItemIndex != hoveredItemIndex
   ) {
     [renderedComponents[draggingItemIndex], renderedComponents[hoveredItemIndex]] = [
       renderedComponents[hoveredItemIndex],
@@ -62,8 +64,8 @@
     }
   }
 
-  $ :if (attributesContainer && !render) {
-    const {selector} = renderedComponents[editing!];
+  $: if (attributesContainer && !render) {
+    const { selector } = renderedComponents[editing!];
     const component = componentMap[selector];
     const schema = new ModularSchema(component.attributes!.schema);
     const instance = schema.createInstance(selectedItem.value.attributes);
@@ -73,21 +75,22 @@
     });
     render = view.render({
       parentElement: attributesContainer,
-      instance,
+      instance
     });
   }
 
-
   onMount(() => {
     if (window) {
-      document.addEventListener('dragover', function(e) {e.preventDefault()})
+      document.addEventListener('dragover', function (e) {
+        e.preventDefault();
+      });
     }
     componentMap = options.components.reduce(
-            (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
-              acc[cur.selector] = cur;
-              return acc;
-            },
-            {}
+      (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
+        acc[cur.selector] = cur;
+        return acc;
+      },
+      {}
     );
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
@@ -95,11 +98,10 @@
     if (value) {
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
-
   });
 
   export function save() {
-    render.getValue().then(res => {
+    render.getValue().then((res) => {
       if (res) {
         renderedComponents[editing!].value.attributes = res;
         renderedComponents[editing!].value.slots = textSlots;
@@ -108,7 +110,7 @@
       }
       render = null;
       attributesContainer = null;
-    })
+    });
   }
 
   export function reverseValue() {
@@ -119,8 +121,8 @@
 
   function formatStyle(styles) {
     return Object.entries(styles)
-            .map(([key, value]) => `${key}:${value}`)
-            .join(';');
+      .map(([key, value]) => `${key}:${value}`)
+      .join(';');
   }
 
   function refreshIframe() {
@@ -128,15 +130,17 @@
     reRenderTIme = setTimeout(() => {
       iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
       updateValue();
-      value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v, false));
-      reRenderTIme = null
+      value.forEach((v: PageBuilderComponentValue) =>
+        addComponent(componentMap[v.selector], v, false)
+      );
+      reRenderTIme = null;
     }, 50);
   }
 
   function addComponent(
-          component: PageBuilderComponent,
-          value?: PageBuilderComponentValue,
-          repopulate = true
+    component: PageBuilderComponent,
+    value?: PageBuilderComponentValue,
+    repopulate = true
   ) {
     const el = new Block({
       target: iframeDoc.body,
@@ -186,25 +190,25 @@
   <header class="pb-header">
     <div class="flex gap-2">
       <Button
-              variant="icon"
-              on:click={() => (previewStyle = 'desktop')}
-              active={previewStyle === 'desktop'}
+        variant="icon"
+        on:click={() => (previewStyle = 'desktop')}
+        active={previewStyle === 'desktop'}
       >
         <span class="material-symbols-outlined"> laptop_mac </span>
       </Button>
 
       <Button
-              variant="icon"
-              on:click={() => (previewStyle = 'tablet')}
-              active={previewStyle === 'tablet'}
+        variant="icon"
+        on:click={() => (previewStyle = 'tablet')}
+        active={previewStyle === 'tablet'}
       >
         <span class="material-symbols-outlined"> tablet </span>
       </Button>
 
       <Button
-              variant="icon"
-              on:click={() => (previewStyle = 'mobile')}
-              active={previewStyle === 'mobile'}
+        variant="icon"
+        on:click={() => (previewStyle = 'mobile')}
+        active={previewStyle === 'mobile'}
       >
         <span class="material-symbols-outlined"> smartphone </span>
       </Button>
@@ -243,23 +247,23 @@
 
       {#each renderedComponents as item, index (item)}
         <div
-                class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
-                draggable="true"
-                aria-hidden="true"
-                on:dragstart={(e) => {
+          class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
+          draggable="true"
+          aria-hidden="true"
+          on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
           }}
-                on:drag={(e) => {
+          on:drag={(e) => {
             mouseYCoordinate = e.clientY;
           }}
-                on:dragover={(e) => {
+          on:dragover={(e) => {
             hoveredItemIndex = index;
           }}
-                on:dragend={(e) => {
+          on:dragend={(e) => {
             mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
@@ -269,16 +273,16 @@
             <p>{item.selector}</p>
             <div class="flex items-center gap-2">
               <Button
-                      variant="icon"
-                      on:click={() => openEdit(index, item)}
-                      active={previewStyle === 'tablet'}
+                variant="icon"
+                on:click={() => openEdit(index, item)}
+                active={previewStyle === 'tablet'}
               >
                 <span class="material-symbols-outlined"> edit </span>
               </Button>
               <Button
-                      variant="icon"
-                      on:click={() => removeComponent(index)}
-                      active={previewStyle === 'tablet'}
+                variant="icon"
+                on:click={() => removeComponent(index)}
+                active={previewStyle === 'tablet'}
               >
                 <span class="material-symbols-outlined"> delete_forever </span>
               </Button>
@@ -290,9 +294,7 @@
   </div>
 
   {#if componentGallery}
-    <div
-            class="component-gallery"
-    >
+    <div class="component-gallery">
       <Button on:click={() => (componentGallery = false)}>Close</Button>
 
       {#each options.components as component}

@@ -3,8 +3,8 @@
   import type { PageBuilderOptions } from '$lib/interface/page-builder-options.interface.ts';
   import { PageBuilderComponentSlotType } from '$lib/interface/page-builder-component-slot.interface.ts';
   import type { PageBuilderComponentValue } from '../lib/interface/page-builder-component-value.interface.ts';
-  import {registerComponent} from '@jaspero/modular';
-  import {onMount} from 'svelte';
+  import { registerComponent } from '@jaspero/modular';
+  import { onMount } from 'svelte';
   // import { CarbonTabs } from '@jaspero/modular-components/dist/components/carbon-tabs';
   // import { CarbonAccordion } from '@jaspero/modular-components/dist/components/carbon-accordion';
   // import { CarbonButton } from '@jaspero/modular-components/dist/components/carbon-button';
@@ -139,9 +139,12 @@
   ];
 
   onMount(async () => {
-
-    const {CarbonInput} = await import('@jaspero/modular-components/dist/components/carbon-input');
-    const {CarbonTextarea} = await import('@jaspero/modular-components/dist/components/carbon-textarea');
+    const { CarbonInput } = await import(
+      '@jaspero/modular-components/dist/components/carbon-input'
+    );
+    const { CarbonTextarea } = await import(
+      '@jaspero/modular-components/dist/components/carbon-textarea'
+    );
 
     registerComponent('carbon-input', CarbonInput);
     registerComponent('carbon-textarea', CarbonTextarea);
@@ -159,7 +162,7 @@
     // registerComponent('carbon-object-array', CarbonObjectArray)
     // registerComponent('tab-views', TabViews)
     // registerComponent('carbon-contentswitcher', CarbonContentswitcher)
-  })
+  });
 </script>
 
 <PageBuilder {options} bind:value />

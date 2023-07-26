@@ -15,6 +15,3 @@
     <div aria-hidden="true" on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
   {/each}
 </div>
-
-<style lang="scss">
-</style>

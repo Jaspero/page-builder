@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { transform } from 'esbuild';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import pkg from './package.json';
 
 const bundleComponents = false;
@@ -21,16 +21,16 @@ export default defineConfig({
           es: `${pkg.name}.js`,
           esm: `${pkg.name}.min.js`,
           umd: `${pkg.name}.umd.js`
-        })[format]
+        }[format])
     },
     rollupOptions: {
       output: bundleComponents
         ? {}
         : {
-          inlineDynamicImports: false,
-          chunkFileNames: '[name].js',
-          manualChunks: { svelte: ['svelte'] }
-        }
+            inlineDynamicImports: false,
+            chunkFileNames: '[name].js',
+            manualChunks: { svelte: ['svelte'] }
+          }
     }
   },
   plugins: [
@@ -41,12 +41,15 @@ export default defineConfig({
       }
     }),
     svelte({
-      include: /\.wc\.svelte$/ as any
+      include: /\.wc\.svelte$/ as any,
+      compilerOptions: {
+        customElement: true
+      }
     }),
     viteStaticCopy({
       targets: [
         {
-          src: './src/interface/',
+          src: './src/types/',
           dest: '../../dist/lib/'
         }
       ]
