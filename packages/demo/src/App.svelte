@@ -6,7 +6,6 @@
 
   onMount(() => {
     const instanceEl = document.createElement('jp-page-builder');
-    // const instanceEl = document.createElement('jp-bpmn-single');
 
     el.appendChild(instanceEl);
   })
