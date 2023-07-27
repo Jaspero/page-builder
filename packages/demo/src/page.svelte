@@ -1,8 +1,8 @@
 <script lang="ts">
   import PageBuilder from '$lib/PageBuilder.svelte';
-  import type { PageBuilderOptions } from '$lib/interface/page-builder-options.interface.ts';
-  import { PageBuilderComponentSlotType } from '$lib/interface/page-builder-component-slot.interface.ts';
-  import type { PageBuilderComponentValue } from '../lib/interface/page-builder-component-value.interface.ts';
+  import type { PageBuilderOptions } from '$lib/types/page-builder-options.interface.ts';
+  import { PageBuilderComponentSlotType } from '$lib/types/page-builder-component-slot.interface.ts';
+  import type { PageBuilderComponentValue } from '../lib/types/page-builder-component-value.interface.ts';
   import { registerComponent } from '@jaspero/modular';
   import { onMount } from 'svelte';
   // import { CarbonTabs } from '@jaspero/modular-components/dist/components/carbon-tabs';
@@ -24,7 +24,7 @@
   //   CarbonContentswitcher
   // } from '@jaspero/modular-components/dist/components/carbon-contentswitcher';
 
-  const options: PageBuilderOptions = {
+  export const options: PageBuilderOptions = {
     components: [
       {
         selector: `example-content`,

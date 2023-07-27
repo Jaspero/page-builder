@@ -7,9 +7,9 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { PageBuilderOptions } from './interface/page-builder-options.interface.ts';
-  import type { PageBuilderComponent } from './interface/page-builder-component.interface.ts';
-  import type { PageBuilderComponentValue } from './interface/page-builder-component-value.interface.ts';
+  import type { PageBuilderOptions } from './types/page-builder-options.interface.ts';
+  import type { PageBuilderComponent } from './types/page-builder-component.interface.ts';
+  import type { PageBuilderComponentValue } from './types/page-builder-component-value.interface.ts';
   import { iframeEl as iframeElStore } from './context-menu.ts';
   import Button from './Button.svelte';
   import Block from './Block.svelte';
@@ -85,13 +85,15 @@
         e.preventDefault();
       });
     }
-    componentMap = options.components.reduce(
-      (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
-        acc[cur.selector] = cur;
-        return acc;
-      },
-      {}
-    );
+    if (options) {
+      componentMap = options.components.reduce(
+              (acc: { [selector: string]: PageBuilderComponent }, cur: PageBuilderComponent) => {
+                acc[cur.selector] = cur;
+                return acc;
+              },
+              {}
+      );
+    }
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
 

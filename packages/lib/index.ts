@@ -5,8 +5,8 @@ export default () => {
   /**
    * Types
    */
-  import('./src/interface/page-builder-component-slot.interface');
-  import('./src/interface/page-builder-component-value.interface');
-  import('./src/interface/page-builder-component.interface');
-  import('./src/interface/page-builder-options.interface');
+  import('./src/types/page-builder-component-slot.interface');
+  import('./src/types/page-builder-component-value.interface');
+  import('./src/types/page-builder-component.interface');
+  import('./src/types/page-builder-options.interface');
 };
