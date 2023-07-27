@@ -4,6 +4,7 @@
   import '../../../dist/lib/bla.wc.js';
   import type { PageBuilderOptions } from '$lib/types/page-builder-options.interface.ts';
   import type { PageBuilderComponentValue } from '$lib/types/page-builder-component-value.interface.ts';
+  // import { PageBuilderComponentSlotType } from '$lib/types/page-builder-component-slot.interface.ts';
   import { registerComponent } from '@jaspero/modular';
   // import { CarbonTabs } from '@jaspero/modular-components/dist/components/carbon-tabs';
   // import { CarbonAccordion } from '@jaspero/modular-components/dist/components/carbon-accordion';
