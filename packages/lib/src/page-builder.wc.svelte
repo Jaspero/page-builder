@@ -1,5 +1,5 @@
 <svelte:options
-  customElement={{
+        customElement={{
     tag: 'jp-page-builder',
     shadow: 'none'
   }}
@@ -50,9 +50,9 @@
   let reRenderTIme = null;
 
   $: if (
-    draggingItemIndex != null &&
-    hoveredItemIndex != null &&
-    draggingItemIndex != hoveredItemIndex
+          draggingItemIndex != null &&
+          hoveredItemIndex != null &&
+          draggingItemIndex != hoveredItemIndex
   ) {
     [renderedComponents[draggingItemIndex], renderedComponents[hoveredItemIndex]] = [
       renderedComponents[hoveredItemIndex],
@@ -112,6 +112,7 @@
       }
       render = null;
       attributesContainer = null;
+      showModal = false;
     });
   }
 
@@ -119,12 +120,14 @@
     renderedComponents[editing!].value = JSON.parse(JSON.stringify(selectedItem!.value));
     render = null;
     attributesContainer = null;
+    showModal = false;
+    componentGallery = false;
   }
 
   function formatStyle(styles) {
     return Object.entries(styles)
-      .map(([key, value]) => `${key}:${value}`)
-      .join(';');
+            .map(([key, value]) => `${key}:${value}`)
+            .join(';');
   }
 
   function refreshIframe() {
@@ -133,16 +136,16 @@
       iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
       updateValue();
       value.forEach((v: PageBuilderComponentValue) =>
-        addComponent(componentMap[v.selector], v, false)
+              addComponent(componentMap[v.selector], v, false)
       );
       reRenderTIme = null;
     }, 50);
   }
 
   function addComponent(
-    component: PageBuilderComponent,
-    value?: PageBuilderComponentValue,
-    repopulate = true
+          component: PageBuilderComponent,
+          value?: PageBuilderComponentValue,
+          repopulate = true
   ) {
     const el = new Block({
       target: iframeDoc.body,
@@ -186,31 +189,35 @@
     value = renderedComponents.map((c) => c.value);
     renderedComponents = [...renderedComponents];
   }
+
+  function onKeyPress(e) {
+    console.log('EEE', e);
+  }
 </script>
 
 <div>
   <header class="pb-header">
     <div class="flex gap-2">
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'desktop')}
-        active={previewStyle === 'desktop'}
+              variant="icon"
+              on:click={() => (previewStyle = 'desktop')}
+              active={previewStyle === 'desktop'}
       >
         <span class="material-symbols-outlined"> laptop_mac </span>
       </Button>
 
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'tablet')}
-        active={previewStyle === 'tablet'}
+              variant="icon"
+              on:click={() => (previewStyle = 'tablet')}
+              active={previewStyle === 'tablet'}
       >
         <span class="material-symbols-outlined"> tablet </span>
       </Button>
 
       <Button
-        variant="icon"
-        on:click={() => (previewStyle = 'mobile')}
-        active={previewStyle === 'mobile'}
+              variant="icon"
+              on:click={() => (previewStyle = 'mobile')}
+              active={previewStyle === 'mobile'}
       >
         <span class="material-symbols-outlined"> smartphone </span>
       </Button>
@@ -249,23 +256,23 @@
 
       {#each renderedComponents as item, index (item)}
         <div
-          class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
-          draggable="true"
-          aria-hidden="true"
-          on:dragstart={(e) => {
+                class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
+                draggable="true"
+                aria-hidden="true"
+                on:dragstart={(e) => {
             mouseYCoordinate = e.clientY;
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
           }}
-          on:drag={(e) => {
+                on:drag={(e) => {
             mouseYCoordinate = e.clientY;
           }}
-          on:dragover={(e) => {
+                on:dragover={(e) => {
             hoveredItemIndex = index;
           }}
-          on:dragend={(e) => {
+                on:dragend={(e) => {
             mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
@@ -275,16 +282,16 @@
             <p>{item.selector}</p>
             <div class="flex items-center gap-2">
               <Button
-                variant="icon"
-                on:click={() => openEdit(index, item)}
-                active={previewStyle === 'tablet'}
+                      variant="icon"
+                      on:click={() => openEdit(index, item)}
+                      active={previewStyle === 'tablet'}
               >
                 <span class="material-symbols-outlined"> edit </span>
               </Button>
               <Button
-                variant="icon"
-                on:click={() => removeComponent(index)}
-                active={previewStyle === 'tablet'}
+                      variant="icon"
+                      on:click={() => removeComponent(index)}
+                      active={previewStyle === 'tablet'}
               >
                 <span class="material-symbols-outlined"> delete_forever </span>
               </Button>
@@ -295,33 +302,40 @@
     </div>
   </div>
 
-  {#if componentGallery}
-    <div class="component-gallery">
-      <Button on:click={() => (componentGallery = false)}>Close</Button>
-
-      {#each options.components as component}
-        <Button on:click={() => selectComponent(component.selector)}>
-          <h3>{component.title || component.selector}</h3>
-          {#if component.description}
-            <p>{component.description}</p>
-          {/if}
-        </Button>
-      {/each}
-    </div>
-  {/if}
 </div>
 
-<Modal bind:showModal on:saveEvent={save} on:reverse={reverseValue}>
-  <svelte:fragment slot="header">Edit Modal</svelte:fragment>
-  {#if textSlots}
-    {#each textSlots as slot}
-      <div style="padding: .5rem 1rem">
-        <textarea bind:value={slot.value} />
-      </div>
+{#if showModal}
+  <Modal bind:showModal={showModal} on:reverse={reverseValue} on:keypress={onKeyPress}>
+    <svelte:fragment slot="header">Edit Modal</svelte:fragment>
+    {#if textSlots}
+      {#each textSlots as slot}
+        <div style="padding: .5rem 1rem">
+          <textarea bind:value={slot.value}/>
+        </div>
+      {/each}
+    {/if}
+    <div bind:this={attributesContainer} style="padding: .5rem" />
+    <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
+      <Button variant="stroked" on:click={() => reverseValue()}>Close</Button>
+      <Button variant="filled" on:click={save}>Save</Button>
+    </div>
+  </Modal>
+{/if}
+
+{#if componentGallery}
+  <Modal bind:showModal={componentGallery} on:reverse={reverseValue}>
+    <Button on:click={() => (componentGallery = false)}>Close</Button>
+
+    {#each options.components as component}
+      <Button on:click={() => selectComponent(component.selector)}>
+        <h3>{component.title || component.selector}</h3>
+        {#if component.description}
+          <p>{component.description}</p>
+        {/if}
+      </Button>
     {/each}
-  {/if}
-  <div bind:this={attributesContainer} style="padding: .5rem" />
-</Modal>
+  </Modal>
+{/if}
 
 <style lang="postcss">
   .material-symbols-outlined {

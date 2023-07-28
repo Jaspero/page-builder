@@ -5,12 +5,6 @@
   export let showModal: boolean;
 
   const dispatch = createEventDispatcher();
-
-  function saveModal() {
-    dispatch('saveEvent');
-    dialog.close();
-  }
-
   function reverseValue() {
     dispatch('reverse');
     dialog.close();
@@ -32,13 +26,7 @@
       <header class="text-2xl font-bold p-4 mb-4 border-b border-b-black/25">
         <slot name="header" />
       </header>
-
       <slot />
-
-      <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
-        <Button variant="stroked" on:click={() => reverseValue()}>Close</Button>
-        <Button variant="filled" on:click={saveModal}>Save</Button>
-      </div>
     </div>
   {/if}
 </dialog>

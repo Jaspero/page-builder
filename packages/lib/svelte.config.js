@@ -1,8 +1,14 @@
 import sveltePreprocess from 'svelte-preprocess';
+import tailwind from 'tailwindcss';
 
-/** @type {import('@sveltejs/kit').Config} */
 const config = {
-  preprocess: [sveltePreprocess({})]
+  preprocess: [sveltePreprocess({
+    postcss: {
+      plugins: [
+        tailwind
+      ]
+    }
+  })]
 };
 
 export default config;
