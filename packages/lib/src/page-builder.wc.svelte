@@ -34,7 +34,6 @@
   }> = [];
 
   let draggingItemHide = null;
-  let mouseYCoordinate = null;
   let distanceTopGrabbedVsPointer = null;
 
   let draggingItem = null;
@@ -238,64 +237,42 @@
       <iframe title="frame" bind:this={iframeEl} />
     </div>
     <div class="pb-preview container" bind:this={container}>
-      {#if mouseYCoordinate}
-        <div class="item ghost" style="top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;">
-          <div class="flex justify-between items-center">
-            <p>{draggingItem.selector}</p>
-            <div class="flex gap-2">
-              <Button variant="icon" active={previewStyle === 'tablet'}>
-                <span class="material-symbols-outlined"> edit </span>
-              </Button>
-              <Button variant="icon" active={previewStyle === 'tablet'}>
-                <span class="material-symbols-outlined"> delete_forever </span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      {/if}
-
       {#each renderedComponents as item, index (item)}
         <div
                 class="item z-50 {draggingItemHide === item ? 'opacity-0' : 'opacity-100'}"
                 draggable="true"
                 aria-hidden="true"
                 on:dragstart={(e) => {
-            mouseYCoordinate = e.clientY;
             draggingItem = item;
             draggingItemIndex = index;
             draggingItemHide = item;
-            distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY - 73;
-          }}
-                on:drag={(e) => {
-            mouseYCoordinate = e.clientY;
+            distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
+            console.log('starting');
           }}
                 on:dragover={(e) => {
             hoveredItemIndex = index;
           }}
                 on:dragend={(e) => {
-            mouseYCoordinate = null;
             draggingItemHide = null;
             hoveredItemIndex = null;
           }}
         >
-          <div class="flex justify-between items-center">
-            <p>{item.selector}</p>
-            <div class="flex items-center gap-2">
-              <Button
-                      variant="icon"
-                      on:click={() => openEdit(index, item)}
-                      active={previewStyle === 'tablet'}
-              >
-                <span class="material-symbols-outlined"> edit </span>
-              </Button>
-              <Button
-                      variant="icon"
-                      on:click={() => removeComponent(index)}
-                      active={previewStyle === 'tablet'}
-              >
-                <span class="material-symbols-outlined"> delete_forever </span>
-              </Button>
-            </div>
+          <p>{item.selector}</p>
+          <div class="flex items-center gap-2">
+            <Button
+                    variant="icon"
+                    on:click={() => openEdit(index, item)}
+                    active={previewStyle === 'tablet'}
+            >
+              <span class="material-symbols-outlined"> edit </span>
+            </Button>
+            <Button
+                    variant="icon"
+                    on:click={() => removeComponent(index)}
+                    active={previewStyle === 'tablet'}
+            >
+              <span class="material-symbols-outlined"> delete_forever </span>
+            </Button>
           </div>
         </div>
       {/each}
