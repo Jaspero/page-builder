@@ -189,9 +189,6 @@
     renderedComponents = [...renderedComponents];
   }
 
-  function onKeyPress(e) {
-    console.log('EEE', e);
-  }
 </script>
 
 <div>
@@ -247,7 +244,6 @@
             draggingItemIndex = index;
             draggingItemHide = item;
             distanceTopGrabbedVsPointer = e.target.getBoundingClientRect().y - e.clientY;
-            console.log('starting');
           }}
                 on:dragover={(e) => {
             hoveredItemIndex = index;
@@ -282,7 +278,7 @@
 </div>
 
 {#if showModal}
-  <Modal bind:showModal={showModal} on:reverse={reverseValue} on:keypress={onKeyPress}>
+  <Modal bind:showModal={showModal} on:reverse={reverseValue}>
     <svelte:fragment slot="header">Edit Modal</svelte:fragment>
     {#if textSlots}
       {#each textSlots as slot}
