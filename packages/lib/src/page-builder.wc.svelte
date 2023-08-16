@@ -30,6 +30,7 @@
   let renderedComponents: Array<{
     el: HTMLElement;
     selector: string;
+    hidden?: boolean;
     value: PageBuilderComponentValue;
   }> = [];
 
@@ -116,7 +117,9 @@
   }
 
   export function reverseValue() {
-    renderedComponents[editing!].value = JSON.parse(JSON.stringify(selectedItem!.value));
+    if (selectedItem) {
+      renderedComponents[editing!].value = JSON.parse(JSON.stringify(selectedItem!.value));
+    }
     render = null;
     attributesContainer = null;
     showModal = false;
@@ -155,6 +158,7 @@
     }) as any;
 
     if (repopulate) {
+      console.log(renderedComponents);
       renderedComponents.push({
         el,
         selector: component.selector,
@@ -177,6 +181,12 @@
     refreshIframe();
   }
 
+  function hideComponent(index: number) {
+    renderedComponents[index].hidden = !renderedComponents[index].hidden;
+    console.log('renderedComponents', renderedComponents);
+    refreshIframe();
+  }
+
   function openEdit(ind: number, item) {
     editing = ind;
     selectedItem = item;
@@ -189,6 +199,11 @@
     renderedComponents = [...renderedComponents];
   }
 
+  function handleClick() {
+    if (showModal) {
+      console.log(123123)
+    }
+  }
 </script>
 
 <div>
@@ -264,6 +279,13 @@
             </Button>
             <Button
                     variant="icon"
+                    on:click={() => hideComponent(index)}
+                    active={previewStyle === 'tablet'}
+            >
+              <span class="material-symbols-outlined"> hide </span>
+            </Button>
+            <Button
+                    variant="icon"
                     on:click={() => removeComponent(index)}
                     active={previewStyle === 'tablet'}
             >
@@ -276,6 +298,8 @@
   </div>
 
 </div>
+
+<div on:keydown={handleClick}>
 
 {#if showModal}
   <Modal bind:showModal={showModal} on:reverse={reverseValue}>
@@ -295,6 +319,8 @@
   </Modal>
 {/if}
 
+
+</div>
 {#if componentGallery}
   <Modal bind:showModal={componentGallery} on:reverse={reverseValue}>
     <Button on:click={() => (componentGallery = false)}>Close</Button>

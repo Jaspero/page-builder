@@ -125,6 +125,74 @@
             'background-color': '#e4ed12'
           }
         }
+      },
+      {
+        selector: `image-test`,
+        slots: [
+          {
+            type: 'image'
+          }
+        ],
+        attributes: {
+          schema: {
+            properties: {
+              color: { type: 'string' },
+              margin: { type: 'string' },
+              'background-color': { type: 'string' },
+            }
+          },
+          views: [
+            {
+              justify: 'center',
+              container: 'form',
+              items: [
+                {
+                  field: '/color',
+                  component: 'carbon-input',
+                  options: {
+                    label: 'Color'
+                  }
+                },
+                {
+                  field: '/margin',
+                  component: 'carbon-select',
+                  options: {
+                    label: 'Margin',
+                    items: [
+                      {
+                        label: 'XS',
+                        value: '10px'
+                      },
+                      {
+                        label: 'M',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '100px'
+                      },
+                    ]
+                  }
+                },
+                {
+                  field: '/background-color',
+                  component: 'carbon-textarea',
+                  options: {
+                    label: 'Background Color'
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        defaultValue: {
+          slots: [{ value: 'This is new component' }],
+          attributes: {
+            color: 'black',
+            'background-color': '#12edba',
+            'margin': '10px',
+          }
+        }
       }
     ]
   };
@@ -149,6 +217,15 @@
     const { CarbonTextarea } = await import(
       '@jaspero/modular-components/dist/components/carbon-textarea'
       );
+    const { CarbonSelect } = await import(
+      '@jaspero/modular-components/dist/components/carbon-select'
+      );
+    const { CarbonTabs } = await import(
+      '@jaspero/modular-components/dist/components/carbon-tabs'
+      );
+    // const { CarbonFileUploader } = await import(
+    //   '@jaspero/modular-components/dist/components/carbon-fileuploader'
+    //   );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -157,11 +234,9 @@
 
     registerComponent('carbon-input', CarbonInput);
     registerComponent('carbon-textarea', CarbonTextarea);
-    // registerComponent('carbon-submit', CarbonSubmit);
-    // registerComponent('carbon-button', CarbonButton);
     // registerComponent('carbon-accordion', CarbonAccordion);
-    // registerComponent('carbon-tabs', CarbonTabs);
-    // registerComponent('carbon-select', CarbonSelect);
+    registerComponent('carbon-tabs', CarbonTabs);
+    registerComponent('carbon-select', CarbonSelect);
     // registerComponent('carbon-radio', CarbonRadio);
     // registerComponent('carbon-slider', CarbonSlider);
     // registerComponent('carbon-table', CarbonTable);
@@ -171,6 +246,7 @@
     // registerComponent('carbon-object-array', CarbonObjectArray)
     // registerComponent('tab-views', TabViews)
     // registerComponent('carbon-contentswitcher', CarbonContentswitcher)
+    // registerComponent('carbon-fileuploader', CarbonFileUploader)
     el.appendChild(instanceEl);
   });
 </script>
