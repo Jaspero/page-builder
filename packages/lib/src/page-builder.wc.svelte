@@ -158,7 +158,6 @@
     }) as any;
 
     if (repopulate) {
-      console.log(renderedComponents);
       renderedComponents.push({
         el,
         selector: component.selector,
@@ -183,7 +182,6 @@
 
   function hideComponent(index: number) {
     renderedComponents[index].hidden = !renderedComponents[index].hidden;
-    console.log('renderedComponents', renderedComponents);
     refreshIframe();
   }
 
@@ -195,7 +193,12 @@
   }
 
   function updateValue() {
-    value = renderedComponents.map((c) => c.value);
+    value = renderedComponents.reduce((acc, cur) => {
+      if (!cur?.hidden) {
+        acc.push(cur.value)
+      }
+      return acc
+    }, [])
     renderedComponents = [...renderedComponents];
   }
 
@@ -282,7 +285,12 @@
                     on:click={() => hideComponent(index)}
                     active={previewStyle === 'tablet'}
             >
-              <span class="material-symbols-outlined"> hide </span>
+              {#if item.hidden}
+                <span class="material-symbols-outlined"> visibility_off </span>
+              {:else if !item.hidden}
+                <span class="material-symbols-outlined"> visibility </span>
+              {:else}
+              {/if}
             </Button>
             <Button
                     variant="icon"

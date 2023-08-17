@@ -158,6 +158,7 @@
                   component: 'carbon-select',
                   options: {
                     label: 'Margin',
+                    placeholder: 'Margin',
                     items: [
                       {
                         label: 'XS',
