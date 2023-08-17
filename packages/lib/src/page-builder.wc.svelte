@@ -202,9 +202,9 @@
     renderedComponents = [...renderedComponents];
   }
 
-  function handleClick() {
-    if (showModal) {
-      console.log(123123)
+  function handleClick(e) {
+    if (showModal && e.keyCode === 13 && !e.shiftKey) {
+      save()
     }
   }
 </script>

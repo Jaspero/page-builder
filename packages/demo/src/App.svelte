@@ -138,6 +138,7 @@
             properties: {
               color: { type: 'string' },
               margin: { type: 'string' },
+              padding: { type: 'string' },
               'background-color': { type: 'string' },
             }
           },
@@ -167,6 +168,32 @@
                       {
                         label: 'M',
                         value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '100px'
+                      },
+                    ]
+                  }
+                },
+                {
+                  field: '/padding',
+                  component: 'carbon-radio',
+                  options: {
+                    label: 'Padding',
+                    name: 'padding',
+                    items: [
+                      {
+                        label: 'XS',
+                        value: '10px'
+                      },
+                      {
+                        label: 'M',
+                        value: '20px'
+                      },
+                      {
+                        label: 'L',
+                        value: '45px'
                       },
                       {
                         label: 'LX',
@@ -224,9 +251,15 @@
     const { CarbonTabs } = await import(
       '@jaspero/modular-components/dist/components/carbon-tabs'
       );
-    // const { CarbonFileUploader } = await import(
-    //   '@jaspero/modular-components/dist/components/carbon-fileuploader'
-    //   );
+    const { CarbonFileUploader } = await import(
+      '@jaspero/modular-components/dist/components/carbon-fileuploader'
+      );
+    const { CarbonAccordion } = await import(
+      '@jaspero/modular-components/dist/components/carbon-accordion'
+      );
+    const { CarbonRadio } = await import(
+      '@jaspero/modular-components/dist/components/carbon-radio'
+      );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -235,10 +268,10 @@
 
     registerComponent('carbon-input', CarbonInput);
     registerComponent('carbon-textarea', CarbonTextarea);
-    // registerComponent('carbon-accordion', CarbonAccordion);
+    registerComponent('carbon-accordion', CarbonAccordion);
     registerComponent('carbon-tabs', CarbonTabs);
     registerComponent('carbon-select', CarbonSelect);
-    // registerComponent('carbon-radio', CarbonRadio);
+    registerComponent('carbon-radio', CarbonRadio);
     // registerComponent('carbon-slider', CarbonSlider);
     // registerComponent('carbon-table', CarbonTable);
     // registerComponent('carbon-checkbox', CarbonCheckbox);
