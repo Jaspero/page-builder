@@ -223,6 +223,13 @@
     <div class="flex gap-2">
       <Button
               variant="icon"
+              on:click={() => (previewStyle = 'fullscreen')}
+              active={previewStyle === 'fullscreen'}
+      >
+        <span class="material-symbols-outlined"> fullscreen </span>
+      </Button>
+      <Button
+              variant="icon"
               on:click={() => (previewStyle = 'desktop')}
               active={previewStyle === 'desktop'}
       >
