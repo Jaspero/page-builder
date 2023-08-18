@@ -44,6 +44,8 @@
   let container: HTMLDivElement | null;
   let hoveredItemIndex = null;
   let showModal = false;
+  let showConfirmModal = false;
+  let editingIndex = null;
   let attributesContainer: HTMLDivElement | null;
   let textSlots = null;
   let render = null;
@@ -175,9 +177,16 @@
     componentGallery = false;
   }
 
-  function removeComponent(index: number) {
-    renderedComponents.splice(index, 1);
+  function removeComponent() {
+    renderedComponents.splice(editingIndex, 1);
     refreshIframe();
+    showConfirmModal = false;
+    editingIndex = null;
+  }
+
+  function openConfirmationModal(index: number) {
+    showConfirmModal = true;
+    editingIndex = index;
   }
 
   function hideComponent(index: number) {
@@ -294,7 +303,7 @@
             </Button>
             <Button
                     variant="icon"
-                    on:click={() => removeComponent(index)}
+                    on:click={() => openConfirmationModal(index)}
                     active={previewStyle === 'tablet'}
             >
               <span class="material-symbols-outlined"> delete_forever </span>
@@ -323,6 +332,16 @@
     <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
       <Button variant="stroked" on:click={() => reverseValue()}>Close</Button>
       <Button variant="filled" on:click={save}>Save</Button>
+    </div>
+  </Modal>
+{/if}
+
+{#if showConfirmModal}
+  <Modal bind:showModal={showConfirmModal}>
+    <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
+      <p>Are you sure?</p>
+      <Button variant="stroked" on:click={() => showConfirmModal = false}>No</Button>
+      <Button variant="filled" on:click={removeComponent}>Yes</Button>
     </div>
   </Modal>
 {/if}
