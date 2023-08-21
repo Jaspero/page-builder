@@ -139,6 +139,7 @@
               color: { type: 'string' },
               margin: { type: 'string' },
               padding: { type: 'string' },
+              'font-weight': { type: 'number' },
               'background-color': { type: 'string' },
             }
           },
@@ -182,14 +183,17 @@
                   options: {
                     label: 'Padding',
                     name: 'padding',
+                    value: '13px',
                     items: [
                       {
                         label: 'XS',
-                        value: '10px'
+                        value: '10px',
+                        disabled: false
                       },
                       {
                         label: 'M',
-                        value: '20px'
+                        value: '20px',
+                        disabled: true
                       },
                       {
                         label: 'L',
@@ -200,6 +204,16 @@
                         value: '100px'
                       },
                     ]
+                  }
+                },
+                {
+                  field: '/font-weight',
+                  component: 'carbon-slider',
+                  options: {
+                    label: 'Font weight',
+                    value: 100,
+                    min: 10,
+                    max: 1000,
                   }
                 },
                 {
@@ -260,6 +274,9 @@
     const { CarbonRadio } = await import(
       '@jaspero/modular-components/dist/components/carbon-radio'
       );
+    const { CarbonSlider } = await import(
+      '@jaspero/modular-components/dist/components/carbon-slider'
+      );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -272,7 +289,7 @@
     registerComponent('carbon-tabs', CarbonTabs);
     registerComponent('carbon-select', CarbonSelect);
     registerComponent('carbon-radio', CarbonRadio);
-    // registerComponent('carbon-slider', CarbonSlider);
+    registerComponent('carbon-slider', CarbonSlider);
     // registerComponent('carbon-table', CarbonTable);
     // registerComponent('carbon-checkbox', CarbonCheckbox);
     // registerComponent('carbon-toggle', CarbonToggle);

@@ -106,6 +106,7 @@
 
   export function save() {
     render.getValue().then((res) => {
+      console.log('rendered values:', res);
       if (res) {
         renderedComponents[editing!].value.attributes = res;
         renderedComponents[editing!].value.slots = textSlots;
