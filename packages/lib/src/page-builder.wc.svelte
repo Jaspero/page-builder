@@ -325,47 +325,54 @@
 
 <div on:keydown={handleClick}>
 
-{#if showModal}
-  <Modal bind:showModal={showModal} on:reverse={reverseValue}>
-    <svelte:fragment slot="header">Edit Modal</svelte:fragment>
-    {#if textSlots}
-      {#each textSlots as slot}
-        <div style="padding: .5rem 1rem">
-          <textarea bind:value={slot.value}/>
-        </div>
-      {/each}
-    {/if}
-    <div bind:this={attributesContainer} style="padding: .5rem" />
-    <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
-      <Button variant="stroked" on:click={() => reverseValue()}>Close</Button>
-      <Button variant="filled" on:click={save}>Save</Button>
-    </div>
-  </Modal>
-{/if}
+  {#if showModal}
+    <Modal bind:showModal={showModal} on:reverse={reverseValue}>
+      <div class="flex jc-end w-full">
+        <p>Edit Modal</p>
+        <Button variant="stroked" on:click={() => reverseValue()}><span class="material-symbols-outlined">close</span></Button>
+      </div>
+      {#if textSlots}
+        {#each textSlots as slot}
+          <div style="padding: .5rem 1rem">
+            <textarea bind:value={slot.value}/>
+          </div>
+        {/each}
+      {/if}
+      <div bind:this={attributesContainer} style="padding: .5rem" />
+      <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
+        <Button variant="filled" on:click={save}>Save</Button>
+      </div>
+    </Modal>
+  {/if}
 
-{#if showConfirmModal}
-  <Modal bind:showModal={showConfirmModal}>
-    <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
-      <p>Are you sure?</p>
-      <Button variant="stroked" on:click={() => showConfirmModal = false}>No</Button>
-      <Button variant="filled" on:click={removeComponent}>Yes</Button>
-    </div>
-  </Modal>
-{/if}
+  {#if showConfirmModal}
+    <Modal bind:showModal={showConfirmModal}>
+      <div class="flex flex-wrap gap-4 p-4 border-t border-t-black/25">
+        <p>Are you sure?</p>
+        <Button variant="stroked" on:click={() => showConfirmModal = false}>No</Button>
+        <Button variant="filled" on:click={removeComponent}>Yes</Button>
+      </div>
+    </Modal>
+  {/if}
 
 
 </div>
 {#if componentGallery}
   <Modal bind:showModal={componentGallery} on:reverse={reverseValue}>
-    <Button on:click={() => (componentGallery = false)}>Close</Button>
-
-    {#each options.components as component}
-      <Button on:click={() => selectComponent(component.selector)}>
-        <h3>{component.title || component.selector}</h3>
-        {#if component.description}
-          <p>{component.description}</p>
-        {/if}
+    <div class="flex jc-end w-full">
+      <Button on:click={() => (componentGallery = false)}>
+        <span class="material-symbols-outlined">close</span>
       </Button>
+    </div>
+    {#each options.components as component}
+      <div>
+        <Button on:click={() => selectComponent(component.selector)}>
+          <h3>{component.title || component.selector}</h3>
+          {#if component.description}
+            <p>{component.description}</p>
+          {/if}
+        </Button>
+      </div>
     {/each}
   </Modal>
 {/if}
