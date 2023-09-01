@@ -68,6 +68,14 @@
                   options: {
                     label: 'Padding'
                   }
+                },
+                {
+                  field: '/switch',
+                  component: 'carbon-contentswitcher',
+                  options: {
+                    size: '20px',
+                    values: [1,2]
+                  }
                 }
               ]
             }
@@ -183,17 +191,16 @@
                   options: {
                     label: 'Padding',
                     name: 'padding',
+                    orientation: 'horizontal',
                     value: '13px',
                     items: [
                       {
                         label: 'XS',
-                        value: '10px',
-                        disabled: false
+                        value: '10px'
                       },
                       {
                         label: 'M',
-                        value: '20px',
-                        disabled: true
+                        value: '20px'
                       },
                       {
                         label: 'L',
@@ -217,12 +224,62 @@
                   }
                 },
                 {
+                  field: '/date',
+                  component: 'carbon-datepicker',
+                  options: {
+                    label: 'Date',
+                  }
+                },
+                // {
+                //   field: '/table',
+                //   component: 'carbon-table',
+                //   options: {
+                //     label: 'Table',
+                //     options: {
+                //       label: 'Table',
+                //       columns: [
+                //         {
+                //           label: 'one',
+                //           id: 111
+                //         },
+                //         {
+                //           label: 'two',
+                //           id: 222
+                //         },
+                //       ],
+                //       value: [
+                //         {
+                //           one: 1,
+                //           two: 2,
+                //         },
+                //         {
+                //           one: 11,
+                //           two: 22,
+                //         },
+                //         {
+                //           one: 111,
+                //           two: 222,
+                //         },
+                //       ]
+                //     }
+                //   }
+                // },
+                {
                   field: '/background-color',
                   component: 'carbon-textarea',
                   options: {
                     label: 'Background Color'
                   }
-                }
+                },
+                {
+                  field: '/display',
+                  component: 'carbon-checkbox',
+                  options: {
+                    label: 'check',
+                    value: false,
+                    disabled: false,
+                  }
+                },
               ]
             }
           ]
@@ -277,6 +334,21 @@
     const { CarbonSlider } = await import(
       '@jaspero/modular-components/dist/components/carbon-slider'
       );
+    const { CarbonChart } = await import(
+      '@jaspero/modular-components/dist/components/carbon-chart'
+      );
+    const { CarbonDatepicker } = await import(
+      '@jaspero/modular-components/dist/components/carbon-datepicker'
+      );
+    const { CarbonTable } = await import(
+      '@jaspero/modular-components/dist/components/carbon-table'
+      );
+    const { CarbonCheckbox } = await import(
+      '@jaspero/modular-components/dist/components/carbon-checkbox'
+      );
+    const { CarbonContentswitcher } = await import(
+      '@jaspero/modular-components/dist/components/carbon-contentswitcher'
+      );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -290,14 +362,15 @@
     registerComponent('carbon-select', CarbonSelect);
     registerComponent('carbon-radio', CarbonRadio);
     registerComponent('carbon-slider', CarbonSlider);
-    // registerComponent('carbon-table', CarbonTable);
-    // registerComponent('carbon-checkbox', CarbonCheckbox);
+    registerComponent('carbon-chart', CarbonChart);
+    registerComponent('carbon-table', CarbonTable);
+    registerComponent('carbon-checkbox', CarbonCheckbox);
     // registerComponent('carbon-toggle', CarbonToggle);
-    // registerComponent('carbon-datepicker', CarbonDatepicker);
+    registerComponent('carbon-datepicker', CarbonDatepicker);
+    // registerComponent('carbon-fileuploader', CarbonFileUploader);
     // registerComponent('carbon-object-array', CarbonObjectArray)
     // registerComponent('tab-views', TabViews)
-    // registerComponent('carbon-contentswitcher', CarbonContentswitcher)
-    // registerComponent('carbon-fileuploader', CarbonFileUploader)
+    registerComponent('carbon-contentswitcher', CarbonContentswitcher)
     el.appendChild(instanceEl);
   });
 </script>
