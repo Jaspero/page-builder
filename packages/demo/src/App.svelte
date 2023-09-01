@@ -74,7 +74,16 @@
                   component: 'carbon-contentswitcher',
                   options: {
                     size: '20px',
-                    values: [1,2]
+                    values: ['1','2']
+                  }
+                },
+                {
+                  field: '/object',
+                  component: 'carbon-object-array',
+                  options: {
+                    label: 'test arr',
+                    description: 'test description',
+                    views: ['one', 'two'],
                   }
                 }
               ]
@@ -322,9 +331,6 @@
     const { CarbonTabs } = await import(
       '@jaspero/modular-components/dist/components/carbon-tabs'
       );
-    const { CarbonFileUploader } = await import(
-      '@jaspero/modular-components/dist/components/carbon-fileuploader'
-      );
     const { CarbonAccordion } = await import(
       '@jaspero/modular-components/dist/components/carbon-accordion'
       );
@@ -349,6 +355,9 @@
     const { CarbonContentswitcher } = await import(
       '@jaspero/modular-components/dist/components/carbon-contentswitcher'
       );
+    const { CarbonObjectArray } = await import(
+      '@jaspero/modular-components/dist/components/carbon-object-array'
+      );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -367,9 +376,7 @@
     registerComponent('carbon-checkbox', CarbonCheckbox);
     // registerComponent('carbon-toggle', CarbonToggle);
     registerComponent('carbon-datepicker', CarbonDatepicker);
-    // registerComponent('carbon-fileuploader', CarbonFileUploader);
-    // registerComponent('carbon-object-array', CarbonObjectArray)
-    // registerComponent('tab-views', TabViews)
+    registerComponent('carbon-object-array', CarbonObjectArray)
     registerComponent('carbon-contentswitcher', CarbonContentswitcher)
     el.appendChild(instanceEl);
   });
