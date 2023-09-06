@@ -6,6 +6,19 @@
   import type { PageBuilderComponentValue } from '$lib/types/page-builder-component-value.interface.ts';
   // import { PageBuilderComponentSlotType } from '$lib/types/page-builder-component-slot.interface.ts';
   import { registerComponent } from '@jaspero/modular';
+  import '@jaspero/web-components/dist/input.wc';
+  import '@jaspero/web-components/dist/code-editor.wc';
+  import '@jaspero/web-components/dist/button.wc';
+  import '@jaspero/web-components/dist/multiselect.wc';
+  import '@jaspero/web-components/dist/checkbox.wc';
+  import '@jaspero/web-components/dist/textarea.wc';
+  import '@jaspero/web-components/dist/select.wc';
+  import '@jaspero/web-components/dist/radio.wc';
+  import '@jaspero/web-components/dist/quill.wc';
+  import '@jaspero/web-components/dist/json-editor.wc';
+  import '@jaspero/web-components/dist/progress-spinner.wc';
+  import '@jaspero/web-components/dist/paginator.wc';
+  import '@jaspero/web-components/dist/link.wc';
   // import { CarbonTabs } from '@jaspero/modular-components/dist/components/carbon-tabs';
   // import { CarbonAccordion } from '@jaspero/modular-components/dist/components/carbon-accordion';
   // import { CarbonButton } from '@jaspero/modular-components/dist/components/carbon-button';
@@ -50,40 +63,23 @@
               items: [
                 {
                   field: '/color',
-                  component: 'carbon-input',
+                  component: 'modular-carbon-input',
                   options: {
                     label: 'Color'
                   }
                 },
                 {
                   field: '/background-color',
-                  component: 'carbon-textarea',
+                  component: 'modular-carbon-textarea',
                   options: {
                     label: 'Background Color'
                   }
                 },
                 {
                   field: '/padding',
-                  component: 'carbon-input',
+                  component: 'modular-carbon-input',
                   options: {
                     label: 'Padding'
-                  }
-                },
-                {
-                  field: '/switch',
-                  component: 'carbon-contentswitcher',
-                  options: {
-                    size: '20px',
-                    values: ['1','2']
-                  }
-                },
-                {
-                  field: '/object',
-                  component: 'carbon-object-array',
-                  options: {
-                    label: 'test arr',
-                    description: 'test description',
-                    views: ['one', 'two'],
                   }
                 }
               ]
@@ -119,14 +115,14 @@
               items: [
                 {
                   field: '/color',
-                  component: 'carbon-input',
+                  component: 'modular-carbon-input',
                   options: {
                     label: 'Color'
                   }
                 },
                 {
                   field: '/background-color',
-                  component: 'carbon-textarea',
+                  component: 'modular-carbon-textarea',
                   options: {
                     label: 'Background Color'
                   }
@@ -167,22 +163,18 @@
               items: [
                 {
                   field: '/color',
-                  component: 'carbon-input',
-                  options: {
-                    label: 'Color'
-                  }
+                  component: 'jp-input'
                 },
                 {
                   field: '/margin',
-                  component: 'carbon-select',
+                  component: 'jp-select',
                   options: {
-                    label: 'Margin',
-                    placeholder: 'Margin',
-                    items: [
-                      {
-                        label: 'XS',
-                        value: '10px'
-                      },
+                    label: 'testLabel',
+                    name: 'margin',
+                    options: [{
+                      label: 'XS',
+                      value: '10px'
+                    },
                       {
                         label: 'M',
                         value: '20px'
@@ -190,105 +182,36 @@
                       {
                         label: 'LX',
                         value: '100px'
-                      },
-                    ]
-                  }
-                },
-                {
-                  field: '/padding',
-                  component: 'carbon-radio',
-                  options: {
-                    label: 'Padding',
-                    name: 'padding',
-                    orientation: 'horizontal',
-                    value: '13px',
-                    items: [
-                      {
-                        label: 'XS',
-                        value: '10px'
-                      },
-                      {
-                        label: 'M',
-                        value: '20px'
-                      },
-                      {
-                        label: 'L',
-                        value: '45px'
-                      },
-                      {
-                        label: 'LX',
-                        value: '100px'
-                      },
-                    ]
+                      },]
                   }
                 },
                 {
                   field: '/font-weight',
-                  component: 'carbon-slider',
+                  component: 'jp-radio',
                   options: {
-                    label: 'Font weight',
-                    value: 100,
-                    min: 10,
-                    max: 1000,
+                    options: [{"name": "aaa", "value": 100}, {"name": "bbb", "value": 200}, {"name": "ccc", "value": 300}],
+                    name: 'font-weight',
                   }
                 },
                 {
                   field: '/date',
-                  component: 'carbon-datepicker',
+                  component: 'modular-carbon-datepicker',
                   options: {
                     label: 'Date',
                   }
                 },
-                // {
-                //   field: '/table',
-                //   component: 'carbon-table',
-                //   options: {
-                //     label: 'Table',
-                //     options: {
-                //       label: 'Table',
-                //       columns: [
-                //         {
-                //           label: 'one',
-                //           id: 111
-                //         },
-                //         {
-                //           label: 'two',
-                //           id: 222
-                //         },
-                //       ],
-                //       value: [
-                //         {
-                //           one: 1,
-                //           two: 2,
-                //         },
-                //         {
-                //           one: 11,
-                //           two: 22,
-                //         },
-                //         {
-                //           one: 111,
-                //           two: 222,
-                //         },
-                //       ]
-                //     }
-                //   }
-                // },
                 {
                   field: '/background-color',
-                  component: 'carbon-textarea',
+                  component: 'modular-carbon-textarea',
                   options: {
                     label: 'Background Color'
                   }
                 },
-                {
-                  field: '/display',
-                  component: 'carbon-checkbox',
-                  options: {
-                    label: 'check',
-                    value: false,
-                    disabled: false,
-                  }
-                },
+                // {
+                //   field: '/display',
+                //   component: 'jp-checkbox',
+                //   options: [{"label": "aaa", "value": false}]
+                // },
               ]
             }
           ]
@@ -352,12 +275,6 @@
     const { CarbonCheckbox } = await import(
       '@jaspero/modular-components/dist/components/carbon-checkbox'
       );
-    const { CarbonContentswitcher } = await import(
-      '@jaspero/modular-components/dist/components/carbon-contentswitcher'
-      );
-    const { CarbonObjectArray } = await import(
-      '@jaspero/modular-components/dist/components/carbon-object-array'
-      );
 
     // @ts-ignore
     instanceEl.options = options;
@@ -376,8 +293,6 @@
     registerComponent('carbon-checkbox', CarbonCheckbox);
     // registerComponent('carbon-toggle', CarbonToggle);
     registerComponent('carbon-datepicker', CarbonDatepicker);
-    registerComponent('carbon-object-array', CarbonObjectArray)
-    registerComponent('carbon-contentswitcher', CarbonContentswitcher)
     el.appendChild(instanceEl);
   });
 </script>

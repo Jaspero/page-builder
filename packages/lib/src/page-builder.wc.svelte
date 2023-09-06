@@ -51,6 +51,8 @@
   let render = null;
   let reRenderTIme = null;
 
+  const testVal = [{"label": "test", "value": false}];
+  const testVal2 = [{"label": "label1", "selected": false},{"label": "label2", "selected": true},{"label": "label3", "selected": true},{"label": "label4", "selected": false, "disabled": true},{"label": "label5", "selected": false}];
   $: if (
           draggingItemIndex != null &&
           hoveredItemIndex != null &&
@@ -71,7 +73,9 @@
     const component = componentMap[selector];
     const schema = new ModularSchema(component.attributes!.schema);
     const instance = schema.createInstance(selectedItem.value.attributes);
+    console.log('component.attributes', component.attributes.views);
     const view = new ModularView({
+      componentPrefix: '',
       schema,
       views: component.attributes!.views
     });
@@ -106,7 +110,7 @@
 
   export function save() {
     render.getValue().then((res) => {
-      console.log('rendered values:', res);
+      console.log('res', res);
       if (res) {
         renderedComponents[editing!].value.attributes = res;
         renderedComponents[editing!].value.slots = textSlots;
