@@ -6,7 +6,7 @@
 />
 
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
   import type { PageBuilderOptions } from './types/page-builder-options.interface.ts';
   import type { PageBuilderComponent } from './types/page-builder-component.interface.ts';
   import type { PageBuilderComponentValue } from './types/page-builder-component-value.interface.ts';
@@ -15,9 +15,11 @@
   import Block from './Block.svelte';
   import Modal from './Modal.svelte';
   import { ModularSchema, ModularView } from '@jaspero/modular';
-
+  let color = "#00aa55"
   export let options: PageBuilderOptions;
   export let value: PageBuilderComponentValue[];
+
+  const dispatch = createEventDispatcher();
 
   let componentGallery = false;
   let componentMap: {
@@ -102,7 +104,10 @@
     }
     iframeElStore.set(iframeEl);
     iframeDoc = (iframeEl.contentDocument || iframeEl.contentWindow) as Document;
-
+    // iframeEl.onchange('change', (e) => {
+    //
+    //   dispatch('value', {value});
+    // })
     if (value) {
       value.forEach((v: PageBuilderComponentValue) => addComponent(componentMap[v.selector], v));
     }
@@ -327,7 +332,10 @@
   </div>
 
 </div>
-
+<label>
+  <input type="color" bind:value={color}>
+  Change Color
+</label>
 <div on:keydown={handleClick}>
 
   {#if showModal}

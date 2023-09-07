@@ -19,6 +19,7 @@
   import '@jaspero/web-components/dist/progress-spinner.wc';
   import '@jaspero/web-components/dist/paginator.wc';
   import '@jaspero/web-components/dist/link.wc';
+  import colors from 'tailwindcss/colors';
   // import { CarbonTabs } from '@jaspero/modular-components/dist/components/carbon-tabs';
   // import { CarbonAccordion } from '@jaspero/modular-components/dist/components/carbon-accordion';
   // import { CarbonButton } from '@jaspero/modular-components/dist/components/carbon-button';
@@ -237,7 +238,11 @@
               items: [
                 {
                   field: '/color',
-                  component: 'jp-input'
+                  component: 'jp-input',
+                  options: {
+                    label: 'Font Color',
+                    type: colors
+                  }
                 },
                 {
                   field: '/margin-top',
@@ -399,7 +404,7 @@
       attributes: {
         color: 'black',
       },
-      slots: [{ value: 'Cooly' }]
+      slots: [{ value: 'Test header' }]
     }
   ];
 
