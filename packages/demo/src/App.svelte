@@ -46,114 +46,14 @@
         selector: `example-content`,
         slots: [
           {
-            type: 'inline-editor'
+            type: 'text'
           }
         ],
         attributes: {
           schema: {
             properties: {
               color: { type: 'string' },
-              'background-color': { type: 'string' }
-            }
-          },
-          views: [
-            {
-              justify: 'center',
-              container: 'form',
-              items: [
-                {
-                  field: '/color',
-                  component: 'modular-carbon-input',
-                  options: {
-                    label: 'Color'
-                  }
-                },
-                {
-                  field: '/background-color',
-                  component: 'modular-carbon-textarea',
-                  options: {
-                    label: 'Background Color'
-                  }
-                },
-                {
-                  field: '/padding',
-                  component: 'modular-carbon-input',
-                  options: {
-                    label: 'Padding'
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        defaultValue: {
-          slots: [{ value: 'This is default' }],
-          attributes: {
-            color: 'white',
-            'background-color': '#1257ed'
-          }
-        }
-      },
-      {
-        selector: `another-component`,
-        slots: [
-          {
-            type: 'inline-editor'
-          }
-        ],
-        attributes: {
-          schema: {
-            properties: {
-              color: { type: 'string' },
-              'background-color': { type: 'string' }
-            }
-          },
-          views: [
-            {
-              justify: 'center',
-              container: 'form',
-              items: [
-                {
-                  field: '/color',
-                  component: 'modular-carbon-input',
-                  options: {
-                    label: 'Color'
-                  }
-                },
-                {
-                  field: '/background-color',
-                  component: 'modular-carbon-textarea',
-                  options: {
-                    label: 'Background Color'
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        defaultValue: {
-          slots: [{ value: 'This is new component' }],
-          attributes: {
-            color: 'red',
-            'background-color': '#e4ed12'
-          }
-        }
-      },
-      {
-        selector: `image-test`,
-        slots: [
-          {
-            type: 'image'
-          }
-        ],
-        attributes: {
-          schema: {
-            properties: {
-              color: { type: 'string' },
-              margin: { type: 'string' },
-              padding: { type: 'string' },
-              'font-weight': { type: 'number' },
-              'background-color': { type: 'string' },
+              'margin-top': { type: 'string' }
             }
           },
           views: [
@@ -166,61 +66,326 @@
                   component: 'jp-input'
                 },
                 {
-                  field: '/margin',
+                  field: '/margin-top',
                   component: 'jp-select',
                   options: {
-                    label: 'testLabel',
-                    name: 'margin',
-                    options: [{
-                      label: 'XS',
-                      value: '10px'
-                    },
+                    label: 'Margin Top',
+                    name: 'Margin Top',
+                    options: [
+                      {
+                        label: 'None',
+                        value: '0px'
+                      },
+                      {
+                        label: 'XS',
+                        value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
                       {
                         label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
                         value: '20px'
                       },
                       {
                         label: 'LX',
-                        value: '100px'
-                      },]
+                        value: '30px'
+                      }
+                    ]
                   }
                 },
                 {
-                  field: '/font-weight',
-                  component: 'jp-radio',
+                  field: '/margin-bottom',
+                  component: 'jp-select',
                   options: {
-                    options: [{"name": "aaa", "value": 100}, {"name": "bbb", "value": 200}, {"name": "ccc", "value": 300}],
-                    name: 'font-weight',
+                    label: 'Margin Bottom',
+                    name: 'Margin Bottom',
+                    options: [
+                      {
+                        label: 'None',
+                        value: '0px'
+                      },
+                      {
+                        label: 'XS',
+                        value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
                   }
                 },
                 {
-                  field: '/date',
-                  component: 'modular-carbon-datepicker',
+                  field: '/margin-left',
+                  component: 'jp-select',
                   options: {
-                    label: 'Date',
+                    label: 'Margin Left',
+                    name: 'Margin Left',
+                    options: [
+                      {
+                        label: 'None',
+                        value: '0px'
+                      },
+                      {
+                        label: 'XS',
+                        value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
                   }
                 },
                 {
-                  field: '/background-color',
-                  component: 'modular-carbon-textarea',
+                  field: '/margin-right',
+                  component: 'jp-select',
                   options: {
-                    label: 'Background Color'
+                    label: 'Margin Right',
+                    name: 'Margin Right',
+                    options: [
+                      {
+                        label: 'None',
+                        value: '0px'
+                      },
+                      {
+                        label: 'XS',
+                        value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
                   }
                 },
-                // {
-                //   field: '/display',
-                //   component: 'jp-checkbox',
-                //   options: [{"label": "aaa", "value": false}]
-                // },
               ]
             }
           ]
         },
         defaultValue: {
-          slots: [{ value: 'This is new component' }],
+          slots: [
+            { value: `Example Header` },
+            { value: `Example Header2` }
+          ],
           attributes: {
-            color: 'black',
-            'background-color': '#12edba',
+            color: 'blue',
+            'margin': '10px',
+          }
+        }
+      },
+      {
+        selector: `text-component`,
+        slots: [
+          {
+            type: 'text'
+          }
+        ],
+        attributes: {
+          schema: {
+            properties: {
+              color: { type: 'string' },
+              'margin-top': { type: 'string' }
+            }
+          },
+          views: [
+            {
+              justify: 'center',
+              container: 'form',
+              items: [
+                {
+                  field: '/color',
+                  component: 'jp-input'
+                },
+                {
+                  field: '/margin-top',
+                  component: 'jp-select',
+                  options: {
+                    label: 'Margin Top',
+                    name: 'Margin Top',
+                    options: [
+                      {
+                      label: 'None',
+                      value: '0px'
+                      },
+                      {
+                      label: 'XS',
+                      value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
+                  }
+                },
+                {
+                  field: '/margin-bottom',
+                  component: 'jp-select',
+                  options: {
+                    label: 'Margin Bottom',
+                    name: 'Margin Bottom',
+                    options: [
+                      {
+                      label: 'None',
+                      value: '0px'
+                      },
+                      {
+                      label: 'XS',
+                      value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
+                  }
+                },
+                {
+                  field: '/margin-left',
+                  component: 'jp-select',
+                  options: {
+                    label: 'Margin Left',
+                    name: 'Margin Left',
+                    options: [
+                      {
+                      label: 'None',
+                      value: '0px'
+                      },
+                      {
+                      label: 'XS',
+                      value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
+                  }
+                },
+                {
+                  field: '/margin-right',
+                  component: 'jp-select',
+                  options: {
+                    label: 'Margin Right',
+                    name: 'Margin Right',
+                    options: [
+                      {
+                      label: 'None',
+                      value: '0px'
+                      },
+                      {
+                      label: 'XS',
+                      value: '2px'
+                      },
+                      {
+                        label: 'S',
+                        value: '5px'
+                      },
+                      {
+                        label: 'M',
+                        value: '10px'
+                      },
+                      {
+                        label: 'L',
+                        value: '20px'
+                      },
+                      {
+                        label: 'LX',
+                        value: '30px'
+                      }
+                    ]
+                  }
+                },
+              ]
+            }
+          ]
+        },
+        defaultValue: {
+          slots: [
+            { value: `Example Header` },
+            { value: `Example Header2` }
+          ],
+          attributes: {
+            color: 'blue',
             'margin': '10px',
           }
         }
@@ -230,11 +395,9 @@
 
   let value: PageBuilderComponentValue[] = [
     {
-      selector: 'example-content',
+      selector: 'text-component',
       attributes: {
-        color: 'red',
-        'background-color': '#74781c',
-        padding: '50px'
+        color: 'black',
       },
       slots: [{ value: 'Cooly' }]
     }
