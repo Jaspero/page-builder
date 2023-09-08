@@ -332,10 +332,7 @@
   </div>
 
 </div>
-<label>
-  <input type="color" bind:value={color}>
-  Change Color
-</label>
+
 <div on:keydown={handleClick}>
 
   {#if showModal}

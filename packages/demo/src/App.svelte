@@ -241,7 +241,7 @@
                   component: 'jp-input',
                   options: {
                     label: 'Font Color',
-                    type: colors
+                    type: 'color'
                   }
                 },
                 {
