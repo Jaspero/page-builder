@@ -42,6 +42,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    font-size: .875rem;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: var(--button-br);
   }
 
   .variant {
@@ -50,13 +54,16 @@
       height: 2.5rem;
       gap: 0.75rem;
       padding: var(--button-y-padding) var(--button-x-padding);
-      border-radius: var(--button-br);
       border: none;
 
       /* Colors */
       &.primary {
         background-color: var(--primary);
         color: var(--primary-contrast);
+
+        &:hover {
+          background-color: var(--primary-hover);
+        }
       }
       &.secondary {
         background-color: var(--secondary);
@@ -74,7 +81,6 @@
     height: 2.5rem;
     padding: 0;
     margin: 0;
-    border-radius: 0.25rem;
     border: 1px solid #666;
     background-color: white;
     cursor: pointer;

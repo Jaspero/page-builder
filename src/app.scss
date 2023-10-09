@@ -1,7 +1,8 @@
-/* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import 'variables.scss';
 
 html {
+  font-family: 'Montserrat', sans-serif;
   font-size: var(--font-size);
   box-sizing: border-box;
 }

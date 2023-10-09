@@ -33,11 +33,8 @@
 
 <div>
   {#each component.defaultValue.slots as slot}
-    <div on:contextmenu|preventDefault={rightClickContextMenu}>{slot.value}</div>
+    <div on:contextmenu|preventDefault={rightClickContextMenu} role="button" tabindex="0">{slot.value}</div>
   {/each}
 </div>
 
 <ContextMenu bind:showMenu />
-
-<style lang="scss">
-</style>
